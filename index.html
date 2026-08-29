@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ОГЭ по физике · Задачник</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&family=STIX+Two+Math&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F6F8;
+    --surface:#FFFFFF;
+    --sidebar:#16213E;
+    --sidebar-2:#20305A;
+    --sidebar-3:#2A3D6E;
+    --ink:#1A1F2B;
+    --muted:#6B7280;
+    --amber:#E8A33D;
+    --amber-soft:#FBF0DD;
+    --blue:#2F6FED;
+    --blue-soft:#E9F0FE;
+    --green:#2E9E5B;
+    --green-soft:#E5F6EC;
+    --red:#D64550;
+    --red-soft:#FCE9EA;
+    --border:#E3E7EC;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  #app{display:flex; height:100vh; overflow:hidden;}
+
+  /* ---------- HEADER ---------- */
+  #header{
+    position:fixed; top:0; left:0; right:0; height:64px;
+    background:var(--surface); border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 20px; z-index:50;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-title{font-weight:700; font-size:20.3px; letter-spacing:-0.02em;}
+  .brand-wave{display:block;}
+  .header-right{display:flex; align-items:center; gap:10px;}
+  .profile-chip{
+    display:flex; align-items:center; gap:8px;
+    background:var(--blue-soft); color:var(--blue);
+    padding:6px 12px; border-radius:20px; font-weight:600; font-size:14.3px;
+  }
+  .profile-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);}
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:600; font-size:15.6px;
+    border:1px solid var(--border); background:var(--surface); color:var(--ink);
+    padding:8px 14px; border-radius:8px; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{border-color:var(--sidebar-3); background:var(--bg);}
+  .btn-dark{background:var(--sidebar); color:#fff; border-color:var(--sidebar);}
+  .btn-dark:hover{background:var(--sidebar-2);}
+  .btn-amber{background:var(--amber); color:#1A1200; border-color:var(--amber);}
+  .btn-amber:hover{filter:brightness(1.05);}
+  .btn-green{background:var(--green); color:#fff; border-color:var(--green);}
+  .btn-red{background:var(--red); color:#fff; border-color:var(--red);}
+  .btn-ghost{background:transparent; border-color:transparent; color:var(--muted);}
+  .btn-ghost:hover{background:var(--bg); color:var(--ink);}
+  .btn-sm{padding:5px 10px; font-size:14.6px; border-radius:6px;}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+  #hamburger{display:none;}
+
+  /* ---------- SIDEBAR ---------- */
+  #sidebar{
+    width:374px; min-width:374px; background:var(--sidebar); color:#CBD3E8;
+    margin-top:64px; height:calc(100vh - 64px); overflow-y:auto;
+    padding:14px 10px 40px;
+  }
+  #sidebar::-webkit-scrollbar{width:8px;}
+  #sidebar::-webkit-scrollbar-thumb{background:var(--sidebar-3); border-radius:4px;}
+  .sec-block{margin-bottom:4px;}
+  .sec-head{
+    display:flex; align-items:center; gap:8px; padding:10px 10px;
+    cursor:pointer; border-radius:8px; font-weight:700; font-size:14.8px;
+    color:#fff; letter-spacing:.01em; text-transform:uppercase;
+  }
+  .sec-head:hover{background:var(--sidebar-2);}
+  .caret{width:9px; height:9px; border-right:2px solid #8592B8; border-bottom:2px solid #8592B8; transform:rotate(-45deg); transition:.15s; flex-shrink:0;}
+  .caret.open{transform:rotate(45deg);}
+  .sub-list{padding-left:10px; overflow:hidden; max-height:0; transition:max-height .2s ease;}
+  .sub-list.open{max-height:4000px;}
+  .sub-head{
+    display:flex; align-items:center; gap:8px; padding:8px 10px; margin-top:2px;
+    cursor:pointer; border-radius:7px; font-weight:600; font-size:14.1px; color:#B7C0DE;
+  }
+  .sub-head:hover{background:var(--sidebar-2); color:#fff;}
+  .par-list{padding-left:14px; overflow:hidden; max-height:0; transition:max-height .2s ease;}
+  .par-list.open{max-height:6000px;}
+  .par-row{
+    padding:7px 10px; margin-top:1px; border-radius:6px; cursor:pointer;
+    font-size:13.6px; color:#93A0C6; line-height:1.35; display:flex; gap:6px;
+  }
+  .par-row:hover{background:var(--sidebar-2); color:#EAEEFA;}
+  .par-num{font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--amber); flex-shrink:0;}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; padding:6px 10px 10px 24px; overflow:hidden; max-height:0; transition:max-height .2s ease;}
+  .chips.open{max-height:2000px;}
+  .chip{
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:12.8px;
+    min-width:34px; height:30px; padding:0 6px; display:flex; align-items:center; justify-content:center;
+    border-radius:7px; cursor:pointer; background:var(--sidebar-2); color:var(--blue);
+    border:1.5px solid #3A4E82; transition:.12s;
+  }
+  .chip.correct{color:#fff; background:var(--green); border-color:var(--green);}
+  .chip.retry{color:#1A1200; background:var(--amber); border-color:var(--amber);}
+  .chip.wrong{color:#fff; background:var(--red); border-color:var(--red);}
+  .chip.active{outline:2px solid var(--amber); outline-offset:1px;}
+  .chip.followup-pending{border-color:var(--blue); box-shadow:0 0 0 2px var(--blue);}
+  .chip:hover{filter:brightness(1.15);}
+  .chip-empty{font-size:12.8px; color:#6E7BA0; padding:2px 10px 8px 24px; font-style:italic;}
+
+  /* ---------- IMAGES ---------- */
+  .img-gallery{display:flex; flex-wrap:wrap; gap:10px; margin:10px 0;}
+  .img-gallery img{max-width:100%; max-height:340px; border-radius:10px; border:1px solid var(--border); display:block;}
+  .img-thumb-wrap{position:relative; display:inline-block;}
+  .img-thumb{width:90px; height:90px; object-fit:cover; border-radius:8px; border:1px solid var(--border); display:block;}
+  .img-thumb-remove{
+    position:absolute; top:-6px; right:-6px; width:20px; height:20px; border-radius:50%;
+    background:var(--red); color:#fff; border:2px solid var(--surface); cursor:pointer;
+    font-size:13.3px; line-height:1; display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  .insert-badge{background:var(--amber); color:#1A1200; border-radius:8px; padding:8px 12px; font-size:13.8px; font-weight:600; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between;}
+
+  /* ---------- MAIN ---------- */
+  #main{flex:1; margin-top:64px; height:calc(100vh - 64px); overflow-y:auto;}
+  .main-inner{max-width:880px; margin:0 auto; padding:36px 28px 80px;}
+
+  .empty-state{text-align:center; padding:80px 20px; color:var(--muted);}
+  .wave-big{opacity:.5; margin-bottom:14px;}
+
+  .par-eyebrow{font-family:'JetBrains Mono',monospace; color:var(--blue); font-weight:700; font-size:14.3px; margin-bottom:6px;}
+  .problem-title{font-size:22.6px; font-weight:700; margin:0 0 20px; letter-spacing:-0.01em;}
+  .problem-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:20px; margin-bottom:20px;
+  }
+  .problem-body{display:flex; gap:18px; align-items:flex-start;}
+  .problem-media{flex:0 0 40%; max-width:300px; display:flex; flex-direction:column; gap:10px;}
+  .problem-wide-media{margin-top:14px; display:flex; flex-direction:column; gap:10px;}
+  .problem-wide-media img{width:100%; border-radius:10px; border:1px solid var(--border); display:block;}
+  .problem-media img{width:100%; border-radius:10px; border:1px solid var(--border); display:block;}
+  .problem-text-col{flex:1; min-width:0; padding-right:2px;}
+  @media(max-width:700px){
+    .problem-body{flex-direction:column;}
+    .problem-media{flex:0 0 auto; max-width:100%;}
+  }
+  .problem-text{font-size:19.4px; line-height:1.65; white-space:pre-wrap; font-family:'Old Standard TT', 'Playfair Display', 'STIX Two Math', 'Times New Roman', serif;}
+  .problem-text i{font-style:italic; font-family:'Old Standard TT', 'Playfair Display', 'STIX Two Math', 'Times New Roman', serif;}
+  .cm-num{font-family:'Old Standard TT', 'Playfair Display', 'STIX Two Math', 'Times New Roman', serif; font-style:normal;}
+  .vec-wrap{position:relative; display:inline-block; padding-top:0.5em; font-style:italic; font-family:'Old Standard TT', 'Playfair Display', 'STIX Two Math', 'Times New Roman', serif;}
+  .overline{text-decoration:overline; text-decoration-thickness:1.3px; text-underline-offset:2px;}
+  .sqrt-wrap{display:inline-flex; align-items:baseline; white-space:nowrap;}
+  .sqrt-radical{font-family:'Old Standard TT', 'Playfair Display', 'STIX Two Math', 'Times New Roman', serif; font-size:1.2em; line-height:1; position:relative; top:-0.08em;}
+  .sqrt-tall .sqrt-radical{font-size:1.75em; top:1.6pt;}
+  .problem-text sup, .problem-text sub{font-size:0.7em;}
+  .frac{display:inline-flex; flex-direction:column; align-items:stretch; vertical-align:middle; margin:0 3px; line-height:1.2; font-size:0.85em; text-align:center;}
+  .frac-num{padding:0 2px 1px;}
+  .frac-den{padding:1px 2px 0; border-top:1.3px solid currentColor;}
+  .nuclide-pre{display:inline-flex; flex-direction:column; align-items:flex-end; justify-content:center; font-size:0.62em; line-height:1.05; vertical-align:middle; margin-right:1px; font-style:normal;}
+  .upright-fn{font-style:normal;}
+  .sqrt-content{border-top:1.4px solid currentColor; padding:1px 3px 0 2px; margin-left:-2px;}
+  .prob-table{border-collapse:collapse; margin:10px 0;}
+  .prob-table td{border:1px solid var(--border); padding:6px 12px; text-align:center;}
+  .vec-arrow{position:absolute; top:-0.05em; left:50%; transform:translateX(-50%) scale(0.6); line-height:1; font-style:normal;}
+  .placeholder-text{color:var(--muted); font-style:italic;}
+  .answer-row{display:flex; gap:10px; margin-top:8px;}
+  .answer-input{
+    flex:1; padding:12px 14px; border-radius:10px; border:1.5px solid var(--border);
+    font-family:'JetBrains Mono',monospace; font-size:17.6px; outline:none; transition:.15s;
+  }
+  .answer-input:focus{border-color:var(--blue);}
+  .feedback{margin-top:14px; padding:12px 16px; border-radius:10px; font-weight:600; font-size:16.6px; display:none;}
+  .feedback.correct{display:block; background:var(--green-soft); color:var(--green);}
+  .feedback.retry{display:block; background:var(--amber-soft); color:#9A6A15;}
+  .feedback.wrong{display:block; background:var(--red-soft); color:var(--red);}
+  .prev-answer{margin-top:10px; font-size:15.1px; color:var(--muted);}
+  .followup-trigger{margin-top:14px;}
+  .followup-card{
+    background:var(--surface); border:1px solid var(--amber); border-radius:14px;
+    padding:20px; margin-top:16px;
+  }
+  .followup-card .par-eyebrow{color:#9A6A15;}
+  .followup-label{font-family:'JetBrains Mono',monospace; color:#9A6A15; font-weight:700; font-size:14.6px; text-transform:uppercase; letter-spacing:.03em; margin-bottom:10px;}
+  .followup-editor{margin-top:14px; padding-top:14px; border-top:1px dashed var(--border);}
+
+  /* ---------- PROFILE GATE ---------- */
+  #gate{
+    position:fixed; inset:0; background:var(--sidebar); display:flex; align-items:center; justify-content:center; z-index:200;
+  }
+  .gate-card{background:var(--surface); border-radius:18px; padding:44px 40px; width:380px; max-width:90vw; text-align:center;}
+  .gate-card h2{margin:0 0 6px; font-size:19.8px;}
+  .gate-title{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:23.3px; letter-spacing:-0.01em; color:var(--ink); margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid var(--border);}
+  .gate-card p{color:var(--muted); font-size:14.8px; margin:0 0 22px;}
+  .gate-card input{
+    width:100%; padding:13px 14px; border-radius:10px; border:1.5px solid var(--border);
+    font-size:16.3px; margin-bottom:14px; font-family:'Inter',sans-serif;
+  }
+  .gate-card .btn{width:100%; padding:12px;}
+  .author-info{margin-top:18px; padding-top:16px; border-top:1px solid var(--border); text-align:center; font-size:12.8px; color:var(--muted); line-height:1.7;}
+  .author-info .author-name{font-weight:700; color:var(--ink); font-size:13.8px; display:block; margin-bottom:4px;}
+  .author-info a{color:var(--ink); text-decoration:none; font-weight:600;}
+  .author-info .author-links{display:flex; gap:10px; justify-content:center; margin-top:2px;}
+  .author-link{
+    display:flex; align-items:center; gap:7px; padding:8px 13px; border-radius:10px;
+    border:1.5px solid var(--border); transition:.15s;
+  }
+  .author-link svg{flex-shrink:0; display:block;}
+  .author-link.tg:hover{border-color:#29A9EA; background:#EAF6FE; color:#1B7FB8;}
+  .author-link.wa:hover{border-color:#25D366; background:#E7FBEF; color:#1C9C4B;}
+
+  /* ---------- TEACHER MODAL ---------- */
+  #teacher-overlay{
+    position:fixed; inset:0; background:rgba(15,20,35,.55); display:none; align-items:flex-start; justify-content:center;
+    z-index:150; overflow-y:auto; padding:40px 16px;
+  }
+  #teacher-overlay.open{display:flex;}
+  .teacher-modal{background:var(--surface); border-radius:16px; width:900px; max-width:96vw; padding:0; overflow:hidden;}
+  .tm-head{display:flex; align-items:center; justify-content:space-between; padding:20px 26px; border-bottom:1px solid var(--border);}
+  .tm-tabs{display:flex; gap:4px; padding:14px 26px 0;}
+  .tm-tab{padding:9px 16px; border-radius:8px 8px 0 0; cursor:pointer; font-weight:600; font-size:14.8px; color:var(--muted);}
+  .tm-tab.active{background:var(--bg); color:var(--ink);}
+  .tm-body{padding:22px 26px 30px; background:var(--bg); max-height:70vh; overflow-y:auto;}
+  .field-label{font-size:14.6px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--muted); margin:0 0 6px;}
+  select, textarea, input[type=text], input[type=number], input[type=password]{
+    font-family:'Inter',sans-serif; font-size:16.6px; padding:10px 12px; border-radius:8px;
+    border:1.5px solid var(--border); width:100%; background:var(--surface);
+  }
+  textarea{resize:vertical; min-height:70px; font-family:'JetBrains Mono',monospace; font-size:16.1px;}
+  .formula-toolbar{display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;}
+  .formula-btn{
+    font-family:'JetBrains Mono',monospace; font-size:15.6px; font-weight:600;
+    min-width:26px; height:26px; padding:0 6px; border-radius:6px;
+    border:1px solid var(--border); background:var(--bg); color:var(--ink); cursor:pointer;
+  }
+  .formula-btn:hover{background:var(--blue-soft); border-color:var(--blue); color:var(--blue);}
+  .form-grid{display:grid; grid-template-columns:1fr; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; margin-bottom:18px;}
+  .row-2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .plist-item{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:10px;}
+  .plist-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
+  .plist-key{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--blue); font-size:15.6px;}
+  table{width:100%; border-collapse:collapse; font-size:15.6px; background:var(--surface); border-radius:10px; overflow:hidden;}
+  th,td{text-align:left; padding:10px 12px; border-bottom:1px solid var(--border);}
+  th{background:var(--bg); font-size:14.1px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted);}
+  .tag{padding:3px 9px; border-radius:20px; font-size:14.1px; font-weight:700;}
+  .tag.ok{background:var(--green-soft); color:var(--green);}
+  .tag.retry{background:var(--amber-soft); color:#9A6A15;}
+  .tag.bad{background:var(--red-soft); color:var(--red);}
+  .tag.pending{background:var(--blue-soft); color:var(--blue);}
+  .stat-strip{display:flex; gap:10px; margin-bottom:16px;}
+  .stat-box{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 16px; flex:1;}
+  .stat-num{font-family:'Space Grotesk',sans-serif; font-size:24.6px; font-weight:700;}
+  .stat-lbl{font-size:14.1px; color:var(--muted); text-transform:uppercase; letter-spacing:.02em;}
+  .hint-box{background:var(--blue-soft); color:#1B3B87; border-radius:10px; padding:12px 14px; font-size:15.1px; line-height:1.55; margin-bottom:16px;}
+  .hint-box code{background:rgba(255,255,255,.6); padding:1px 5px; border-radius:4px;}
+  .stu-map-legend{display:flex; flex-wrap:wrap; gap:14px; margin-bottom:18px; font-size:13.6px; color:var(--muted);}
+  .stu-map-legend span{display:inline-flex; align-items:center; gap:6px;}
+  .stu-map-legend i{width:14px; height:14px; border-radius:4px; display:inline-block; border:1.5px solid var(--border);}
+  .stu-map-sec{margin-bottom:16px;}
+  .stu-map-sec-title{font-weight:700; font-size:14.6px; color:var(--ink); margin:0 0 8px; text-transform:uppercase; letter-spacing:.02em;}
+  .stu-map-sub{margin-bottom:10px;}
+  .stu-map-sub-title{font-weight:600; font-size:13.8px; color:var(--muted); margin:0 0 5px;}
+  .stu-map-par{display:flex; align-items:center; gap:10px; padding:4px 0; flex-wrap:wrap;}
+  .stu-map-par-label{font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--blue); font-size:13.6px; min-width:34px;}
+  .stu-map-chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip.unsolved{background:var(--surface); color:var(--muted); border-color:var(--border);}
+
+  @media(max-width:860px){
+    #sidebar{position:fixed; left:0; top:64px; bottom:0; z-index:80; transform:translateX(-100%); transition:.2s; box-shadow:8px 0 30px rgba(0,0,0,.25);}
+    #sidebar.open{transform:translateX(0);}
+    #hamburger{display:flex;}
+    .brand-title{font-size:17.3px;}
+    .main-inner{padding:24px 16px 60px;}
+    #teacher-overlay{padding:0;}
+    .teacher-modal{border-radius:0; width:100%; min-height:100vh;}
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="brand">
+    <button id="hamburger" class="btn btn-ghost btn-sm" onclick="toggleSidebar()">☰</button>
+    <svg class="brand-wave" width="26" height="26" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="3.1" fill="#2F6FED"/>
+      <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#E8A33D" stroke-width="2" fill="none"/>
+      <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#E8A33D" stroke-width="2" fill="none" transform="rotate(60 20 20)"/>
+      <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#E8A33D" stroke-width="2" fill="none" transform="rotate(120 20 20)"/>
+    </svg>
+    <div class="brand-title">ОГЭ по физике · Задачник</div>
+  </div>
+  <div class="header-right" id="header-right"></div>
+</div>
+
+<div id="app">
+  <div id="sidebar"></div>
+  <div id="main"><div class="main-inner" id="main-inner"></div></div>
+</div>
+
+<div id="gate">
+  <div class="gate-card">
+    <div id="storage-warning" style="display:none; background:var(--red-soft); color:var(--red); border-radius:10px; padding:12px 14px; font-size:12.5px; text-align:left; line-height:1.5; margin-bottom:18px;"></div>
+    <svg width="38" height="38" viewBox="0 0 40 40" fill="none" style="margin-bottom:14px;">
+      <circle cx="20" cy="20" r="3.1" fill="#2F6FED"/>
+      <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#E8A33D" stroke-width="2" fill="none"/>
+      <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#E8A33D" stroke-width="2" fill="none" transform="rotate(60 20 20)"/>
+      <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#E8A33D" stroke-width="2" fill="none" transform="rotate(120 20 20)"/>
+    </svg>
+    <div class="gate-title">ОГЭ по физике · Задачник</div>
+    <h2>Добро пожаловать</h2>
+    <p>Введите имя и фамилию, чтобы система запоминала ваши ответы</p>
+    <input id="gate-name" type="text" autocomplete="off" placeholder="Например: Иванов Пётр" onkeydown="if(event.key==='Enter'){event.preventDefault();enterProfile();}">
+    <button type="button" id="gate-enter-btn" class="btn btn-dark" onclick="enterProfile()">Начать решать задачи</button>
+    <div style="margin-top:34px; padding-top:18px; border-top:1px solid var(--border);"><button type="button" class="btn btn-ghost btn-sm" onclick="enterAsTeacher()">Войти как учитель</button></div>
+    <div class="author-info">
+      <span class="author-name">Руслан Владимирович Куцов</span>
+      <div class="author-links">
+        <a class="author-link tg" href="https://t.me/Ruslan_Phys_Math" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 240 240"><circle cx="120" cy="120" r="120" fill="#29A9EA"/><path fill="#fff" d="M170.6 72.3 148 178.7c-1.7 7.6-6.2 9.5-12.6 5.9l-34.8-25.7-16.8 16.2c-1.9 1.9-3.4 3.4-7 3.4l2.5-35.6 64.8-58.5c2.8-2.5-.6-3.9-4.4-1.4l-80.1 50.4-34.5-10.8c-7.5-2.3-7.6-7.5 1.6-11.1l135-52c6.2-2.3 11.7 1.5 9.9 11.8Z"/></svg>
+          Telegram
+        </a>
+        <a class="author-link wa" href="https://wa.me/79081307537" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#25D366"/><path fill="#fff" d="M16 7c-5 0-9 4-9 9 0 1.6.4 3.1 1.2 4.5L7 25l4.7-1.2c1.3.7 2.8 1.1 4.3 1.1 5 0 9-4 9-9s-4-9-9-9Zm5.2 12.8c-.2.6-1.2 1.1-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.7.8c.2.1.4.2.4.3.1.2.1.7-.2 1.3Z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="custom-dialog-overlay" style="position:fixed; inset:0; background:rgba(15,20,35,.55); display:none; align-items:center; justify-content:center; z-index:300; padding:20px;">
+  <div style="background:var(--surface); border-radius:14px; padding:26px; width:400px; max-width:100%;">
+    <div id="custom-dialog-message" style="font-size:14px; line-height:1.6; white-space:pre-wrap; margin-bottom:16px;"></div>
+    <input id="custom-dialog-input" type="password" style="display:none; width:100%; margin-bottom:16px;">
+    <div id="custom-dialog-buttons" style="display:flex; gap:10px; justify-content:flex-end;"></div>
+  </div>
+</div>
+
+<div id="teacher-overlay">
+  <div class="teacher-modal">
+    <div class="tm-head">
+      <h3 style="margin:0;">Панель учителя</h3>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="closeTeacher()">Закрыть ✕</button>
+    </div>
+    <div class="tm-tabs">
+      <div class="tm-tab active" id="tab-problems" onclick="switchTab('problems')">Задачи</div>
+      <div class="tm-tab" id="tab-results" onclick="switchTab('results')">Результаты учеников</div>
+    </div>
+    <div class="tm-body" id="tm-body"></div>
+  </div>
+</div>
+
+<script>
+/* ================= CURRICULUM ================= */
+const CURRICULUM = [
+{section:"I. Механические явления", subs:[
+  {name:"Кинематика", pars:[
+    {num:1,title:"Механическое движение. Путь и перемещение"},
+    {num:2,title:"Равномерное прямолинейное движение. Скорость"},
+    {num:3,title:"Средняя скорость. Графики скорости, пути и перемещения"},
+    {num:4,title:"Ускорение. Равноускоренное прямолинейное движение"},
+    {num:5,title:"Перемещение при равноускоренном движении"},
+    {num:6,title:"Свободное падение"},
+    {num:7,title:"Движение по окружности"},
+    {num:8,title:"Контрольное задание по кинематике"}]},
+  {name:"Динамика", pars:[
+    {num:9,title:"Масса и плотность"},
+    {num:10,title:"Сила. Законы Ньютона"},
+    {num:11,title:"Сила упругости, сила трения"},
+    {num:12,title:"Сила всемирного тяготения, сила тяжести"},
+    {num:13,title:"Контрольное задание по динамике"},
+    {num:14,title:"Расчетные задачи по кинематике и динамике"}]},
+  {name:"Законы сохранения в механике", pars:[
+    {num:15,title:"Импульс. Закон сохранения импульса. Реактивное движение"},
+    {num:16,title:"Механическая работа и мощность"},
+    {num:17,title:"Кинетическая и потенциальная энергия"},
+    {num:18,title:"Закон сохранения механической энергии"},
+    {num:19,title:"Простые механизмы. КПД простых механизмов"},
+    {num:20,title:"Расчетные задачи по теме «Законы сохранения в механике»"},
+    {num:21,title:"Контрольное задание по теме «Законы сохранения в механике»"}]},
+  {name:"Статика и гидростатика", pars:[
+    {num:22,title:"Статика. Условия равновесия тел"},
+    {num:23,title:"Давление твердых тел, жидкостей и газов. Закон Паскаля. Атмосферное давление"},
+    {num:24,title:"Сила Архимеда"},
+    {num:25,title:"Плавание тел"},
+    {num:26,title:"Расчетные задачи по статике и гидростатике"},
+    {num:27,title:"Контрольное задание по статике и гидростатике"}]},
+  {name:"Механические колебания и волны", pars:[
+    {num:28,title:"Механические колебания"},
+    {num:29,title:"Механические волны. Звук"},
+    {num:30,title:"Контрольное задание по теме «Механические колебания и волны»"},
+    {num:31,title:"Проверочная работа по разделу «Механические явления»"}]}
+]},
+{section:"II. Тепловые явления", subs:[
+  {name:"Тепловые явления", pars:[
+    {num:32,title:"Строение вещества"},
+    {num:33,title:"Тепловое равновесие. Способы изменения внутренней энергии. Виды теплопередачи"},
+    {num:34,title:"Количество теплоты. Удельная теплоёмкость"},
+    {num:35,title:"Изменение агрегатных состояний вещества"},
+    {num:36,title:"Уравнение теплового баланса"},
+    {num:37,title:"Закон сохранения энергии в тепловых процессах. Преобразование энергии в тепловых машинах"},
+    {num:38,title:"Влажность воздуха"},
+    {num:39,title:"Расчетные задачи по теме «Тепловые явления»"},
+    {num:40,title:"Проверочная работа по разделу «Тепловые явления»"}]}
+]},
+{section:"III. Электромагнитные явления", subs:[
+  {name:"Электрический заряд", pars:[
+    {num:41,title:"Электризация тел. Электрический заряд. Взаимодействие зарядов. Проводники и диэлектрики"},
+    {num:42,title:"Закон сохранения электрического заряда"},
+    {num:43,title:"Контрольное задание по теме «Электрический заряд»"}]},
+  {name:"Электрический ток", pars:[
+    {num:44,title:"Постоянный электрический ток. Сила тока"},
+    {num:45,title:"Закон Ома для участка цепи"},
+    {num:46,title:"Последовательное и параллельное соединения проводников"},
+    {num:47,title:"Работа и мощность электрического тока. Закон Джоуля–Ленца"},
+    {num:48,title:"Расчетные задачи по теме «Электрический ток»"},
+    {num:49,title:"Контрольное задание по теме «Электрический ток»"}]},
+  {name:"Магнитные явления", pars:[
+    {num:50,title:"Магнитное поле. Взаимодействие магнитов. Опыт Эрстеда"},
+    {num:51,title:"Действие магнитного поля на проводник с током"},
+    {num:52,title:"Явление электромагнитной индукции. Опыты Фарадея"},
+    {num:53,title:"Электромагнитные волны"},
+    {num:54,title:"Контрольное задание по теме «Магнитные явления»"},
+    {num:55,title:"Комбинированные расчетные задачи"},
+    {num:56,title:"Проверочная работа по разделу «Электромагнитные явления»"}]}
+]},
+{section:"IV. Оптические явления", subs:[
+  {name:"Оптические явления", pars:[
+    {num:57,title:"Прямолинейное распространение света. Отражение света"},
+    {num:58,title:"Преломление света. Дисперсия"},
+    {num:59,title:"Преломление света в линзе"},
+    {num:60,title:"Глаз как оптическая система"},
+    {num:61,title:"Проверочная работа по разделу «Оптические явления»"},
+    {num:62,title:"Проверочная работа по разделам «Механические явления», «Тепловые явления», «Электромагнитные явления», «Оптические явления»"}]}
+]},
+{section:"V. Атомная и ядерная физика", subs:[
+  {name:"Атомная и ядерная физика", pars:[
+    {num:63,title:"Опыты Резерфорда по рассеянию альфа-частиц. Планетарная модель атома"},
+    {num:64,title:"Естественная радиоактивность. Альфа-, бета-, гамма-излучения"},
+    {num:65,title:"Состав атомного ядра. Изотопы"},
+    {num:66,title:"Ядерные реакции"},
+    {num:67,title:"Проверочная работа по разделу «Атомная и ядерная физика»"}]}
+]},
+{section:"VI. Методы научного познания", subs:[
+  {name:"Методы научного познания", pars:[
+    {num:68,title:"Измерения"},
+    {num:69,title:"Опыты"},
+    {num:70,title:"Экспериментальные задания"}]}
+]},
+{section:"VII. Качественные задачи", subs:[
+  {name:"Качественные задачи", pars:[
+    {num:71,title:"Работа с текстом"},
+    {num:72,title:"Задания-вопросы"}]}
+]}
+];
+
+const PAR_INDEX = {}; // num -> {title, section, sub}
+const PAR_TITLE_BASE = {}; // num -> исходное название из CURRICULUM (для сброса переименования)
+CURRICULUM.forEach(sec=>sec.subs.forEach(sub=>sub.pars.forEach(p=>{
+  PAR_INDEX[p.num] = {title:p.title, section:sec.section, sub:sub.name};
+  PAR_TITLE_BASE[p.num] = p.title;
+})));
+
+/* ================= НАЗВАНИЯ ПАРАГРАФОВ (переопределения учителя) =================
+   Учитель может переименовать параграф прямо в панели — исходные названия из
+   CURRICULUM не трогаем (они остаются в PAR_TITLE_BASE как "исходник" для кнопки
+   сброса), а переопределения храним отдельным маленьким shared-объектом
+   {num: "новое название"}. При наличии override — PAR_INDEX[num].title
+   подменяется на него; иначе остаётся исходное. Номера параграфов и вся
+   адресация данных (задачи/ответы учеников) это не затрагивает вообще. */
+let parTitleOverrides = {};
+let parTitleOverridesLoaded = false;
+
+async function loadParTitleOverrides(force){
+  if(parTitleOverridesLoaded && !force) return;
+  const { data } = await sbSelect('par_titles', { select: '*' });
+  parTitleOverrides = {};
+  (data||[]).forEach(r=>{ parTitleOverrides[r.par] = r.title; });
+  applyParTitleOverrides();
+  parTitleOverridesLoaded = true;
+}
+
+function applyParTitleOverrides(){
+  Object.keys(PAR_INDEX).forEach(numStr=>{
+    const num = Number(numStr);
+    const override = parTitleOverrides[num];
+    PAR_INDEX[num].title = (override && override.trim()) ? override : PAR_TITLE_BASE[num];
+  });
+}
+
+const TOTAL_PARS = 72;
+
+/* ================= SUPABASE (через fetch, без внешней библиотеки — CSP
+   артефактов Claude разрешает подключать <script> только с cdnjs.cloudflare.com,
+   а supabase-js там официально не публикуется; обычные fetch-запросы к
+   любому домену этим ограничением не блокируются) ================= */
+const SUPABASE_URL = "https://fjlktgtvybfmugfomhgf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_q3Ova4H870FWChDF9v05rg_pw59VXA5";
+const REST_URL = `${SUPABASE_URL}/rest/v1`;
+
+async function sbSelect(table, params) {
+  const qs = new URLSearchParams(params).toString();
+  try {
+    const res = await fetch(`${REST_URL}/${table}?${qs}`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) return { data: null, error: data || { message: res.statusText } };
+    return { data, error: null };
+  } catch (e) {
+    return { data: null, error: { message: String(e) } };
+  }
+}
+
+async function sbRpc(fn, body) {
+  try {
+    const res = await fetch(`${REST_URL}/rpc/${fn}`, {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) return { data: null, error: data || { message: res.statusText } };
+    return { data, error: null };
+  } catch (e) {
+    return { data: null, error: { message: String(e) } };
+  }
+}
+
+async function sha256Hex(text){
+  const enc = new TextEncoder().encode(text);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+
+function dbId(par, num){ return par + "." + num; }
+function dbIdToKey(id){ const [p,n] = String(id).split('.').map(Number); return pKey(p,n); }
+
+/* ================= STATE ================= */
+let state = {
+  studentName: null,
+  parBlobs: {},      // par(number) -> { "num": {text, answer, images} }  -- один файл хранилища на параграф
+  parBlobsLoaded: false,
+  studentData: {},    // "par-num" -> {given, correct, ts}
+  currentKey: null,
+  isTeacher: false,
+  teacherPasswordHash: null,
+  expandedSec: {}, expandedSub: {}, expandedPar: {},
+  followUpVisible: {} // "par-num" -> true, если ученик открыл доп. задачу (кнопкой)
+};
+let teacherDrafts = {};    // "par-num" or "new" -> {text, answer, images} being edited
+let insertAfterNum = null; // when set, the "add problem" form inserts after this num in teacherSelectedPar
+let moveModeKey = null;    // "par-num" — какая задача сейчас в режиме "переместить"
+let lastStorageError = null;
+
+function isRateLimitError(msg){
+  return !!msg && /rate limit|reload to continue/i.test(msg);
+}
+function isTooLargeError(msg){
+  return !!msg && /лимит хранилища/.test(msg);
+}
+
+const RATE_LIMIT_MSG = 'Достигнут лимит запросов к серверу в этой сессии.\nОбновите страницу — до этого повторные попытки сохранения работать не будут. Ваши несохранённые данные останутся в поле, после обновления войдите заново и сохраните ещё раз.';
+
+/* Пытается повторить сохранение один раз с подтверждением пользователя.
+   Возвращает true, если в итоге сохранить удалось. Сама показывает нужное сообщение об ошибке. */
+async function handleSaveFailure(retryFn){
+  if(isRateLimitError(lastStorageError)){
+    await customAlert(RATE_LIMIT_MSG);
+    return false;
+  }
+  if(isTooLargeError(lastStorageError)){
+    await customAlert(lastStorageError);
+    return false;
+  }
+  const retry = await customConfirm('Не удалось сохранить (' + (lastStorageError && lastStorageError.message ? lastStorageError.message : (lastStorageError||'проблема со связью с сервером')) + ').\nПопробовать ещё раз сейчас?');
+  if(!retry) return false;
+  const ok = await retryFn();
+  if(!ok){
+    if(isRateLimitError(lastStorageError)) await customAlert(RATE_LIMIT_MSG);
+    else if(isTooLargeError(lastStorageError)) await customAlert(lastStorageError);
+    else await customAlert('Всё ещё не удалось сохранить (' + (lastStorageError && lastStorageError.message ? lastStorageError.message : (lastStorageError||'нет связи с сервером')) + '). Подождите немного и повторите попытку.');
+  }
+  return ok;
+}
+
+function pKey(par, num){ return par+"-"+num; }
+
+const parLoaded = {}; // par -> true, если блок уже запрошен из Supabase в этой сессии
+
+/* ================= STORAGE HELPERS ================= */
+/* ================= CUSTOM DIALOGS =================
+   Встроенные окна вместо системных prompt()/confirm()/alert() —
+   в песочнице предпросмотра Claude системные диалоги иногда не показываются. */
+function showDialog(message, opts){
+  return new Promise(resolve=>{
+    const overlay = document.getElementById('custom-dialog-overlay');
+    const msgEl = document.getElementById('custom-dialog-message');
+    const inputEl = document.getElementById('custom-dialog-input');
+    const btnsEl = document.getElementById('custom-dialog-buttons');
+    msgEl.textContent = message;
+    btnsEl.innerHTML = '';
+
+    if(opts.input){
+      inputEl.style.display = 'block';
+      inputEl.type = opts.password ? 'password' : 'text';
+      inputEl.value = '';
+      inputEl.placeholder = opts.placeholder || '';
+      setTimeout(()=>inputEl.focus(), 30);
+    } else {
+      inputEl.style.display = 'none';
+    }
+
+    function close(result){
+      overlay.style.display = 'none';
+      inputEl.onkeydown = null;
+      resolve(result);
+    }
+
+    if(opts.input){
+      const ok = document.createElement('button');
+      ok.type = 'button';
+      ok.className = 'btn btn-dark btn-sm';
+      ok.textContent = opts.okLabel || 'OK';
+      ok.onclick = ()=>close(inputEl.value);
+      const cancel = document.createElement('button');
+      cancel.type = 'button';
+      cancel.className = 'btn btn-sm';
+      cancel.textContent = 'Отмена';
+      cancel.onclick = ()=>close(null);
+      btnsEl.appendChild(cancel); btnsEl.appendChild(ok);
+      inputEl.onkeydown = (e)=>{
+        if(e.key==='Enter'){ e.preventDefault(); close(inputEl.value); }
+        if(e.key==='Escape'){ e.preventDefault(); close(null); }
+      };
+    } else if(opts.confirm){
+      const yes = document.createElement('button');
+      yes.type = 'button';
+      yes.className = 'btn btn-dark btn-sm';
+      yes.textContent = opts.okLabel || 'Да';
+      yes.onclick = ()=>close(true);
+      const no = document.createElement('button');
+      no.type = 'button';
+      no.className = 'btn btn-sm';
+      no.textContent = opts.cancelLabel || 'Отмена';
+      no.onclick = ()=>close(false);
+      btnsEl.appendChild(no); btnsEl.appendChild(yes);
+    } else {
+      const ok = document.createElement('button');
+      ok.type = 'button';
+      ok.className = 'btn btn-dark btn-sm';
+      ok.textContent = 'OK';
+      ok.onclick = ()=>close(true);
+      btnsEl.appendChild(ok);
+    }
+    overlay.style.display = 'flex';
+  });
+}
+function customPrompt(message, password){ return showDialog(message, {input:true, password:!!password}); }
+function customConfirm(message){ return showDialog(message, {confirm:true}); }
+function customAlert(message){ return showDialog(message, {}); }
+
+/* Загружает ОДИН параграф из хранилища, только если он ещё не запрашивался.
+   Экономит запросы: при входе ничего не грузится, пока ученик/учитель не откроет конкретный параграф. */
+async function ensureParLoaded(par, force){
+  if(parLoaded[par] && !force) return;
+  const { data, error } = await sbSelect('questions_public', { par: `eq.${par}`, select: '*' });
+  const blob = {};
+  if(!error && data){
+    data.forEach(row=>{
+      blob[row.num] = {
+        text: row.text || '',
+        images: row.images || [],
+        wideImages: row.wide_images || [],
+        hasAnswer: !!row.has_answer,
+        followUp: row.has_follow_up ? {
+          text: row.follow_up_text || '',
+          images: row.follow_up_images || [],
+          wideImages: row.follow_up_wide_images || [],
+          hasAnswer: !!row.follow_up_has_answer
+        } : null
+      };
+    });
+  }
+  state.parBlobs[par] = blob;
+  parLoaded[par] = true;
+}
+
+/* Последовательная (НЕ параллельная) загрузка нескольких параграфов с
+   небольшой паузой между запросами. Раньше здесь стоял Promise.all с
+   десятками одновременных запросов — это и упирается в лимит хранилища
+   быстрее, и, если лимит уже исчерпан, часть запросов просто зависает без
+   ответа (см. withTimeout выше), из-за чего Promise.all не завершался
+   вообще, а экран навсегда оставался на "Импортируем...". Последовательная
+   загрузка с прогрессом решает обе проблемы: видно, что процесс идёт, и
+   зависший запрос по тайм-ауту не блокирует остальные. */
+async function loadParsSequentially(parsList, force, onProgress){
+  for(let i=0; i<parsList.length; i++){
+    await ensureParLoaded(parsList[i], force);
+    if(onProgress) onProgress(i+1, parsList.length, parsList[i]);
+    if(i < parsList.length-1) await new Promise(r=>setTimeout(r, 60));
+  }
+}
+
+/* Загружает все параграфы (TOTAL_PARS) разом — используется только для полного импорта файла со всеми задачами. */
+async function loadAllParBlobs(force, onProgress){
+  if(state.parBlobsLoaded && !force) return;
+  const all = [];
+  for(let p=1; p<=TOTAL_PARS; p++) all.push(p);
+  await loadParsSequentially(all, force, onProgress);
+  state.parBlobsLoaded = true;
+}
+
+function getParBlob(par){
+  if(!state.parBlobs[par]) state.parBlobs[par] = {};
+  return state.parBlobs[par];
+}
+
+async function fetchProblem(key, force){
+  const [par, num] = key.split('-').map(Number);
+  await ensureParLoaded(par, force);
+  const blob = getParBlob(par);
+  return blob[num] || {text:'', hasAnswer:false, images:[], wideImages:[], followUp:null};
+}
+
+/* Сохраняет ОДНУ задачу, но физически пишет весь файл параграфа целиком (один запрос) */
+async function saveProblem(key, data){
+  const [par, num] = key.split('-').map(Number);
+  const id = dbId(par, num);
+  const exists = !!(getParBlob(par)[num]);
+  const hasFollowUp = !!data.followUp;
+  const base = {
+    p_password_hash: state.teacherPasswordHash,
+    p_text: data.text || '',
+    p_images: data.images || [],
+    p_wide_images: data.wideImages || [],
+    p_has_follow_up: hasFollowUp,
+    p_follow_up_text: hasFollowUp ? (data.followUp.text||'') : null,
+    p_follow_up_images: hasFollowUp ? (data.followUp.images||[]) : [],
+    p_follow_up_wide_images: hasFollowUp ? (data.followUp.wideImages||[]) : [],
+    p_answer: data.answer || '',
+    p_follow_up_answer: hasFollowUp ? (data.followUp.answer||'') : null
+  };
+  let error;
+  if(exists){
+    ({ error } = await sbRpc('update_question', { ...base, p_id: id }));
+  } else {
+    ({ error } = await sbRpc('add_question', { ...base, p_par: par, p_num: num }));
+  }
+  if(error){ lastStorageError = error; return false; }
+  await ensureParLoaded(par, true);
+  await loadTeacherAnswerKey();
+  return true;
+}
+
+/* Удаляет задачу — сдвиг номеров последующих задач и перенос записей
+   учеников (по question_id) делает сама SQL-функция delete_question. */
+async function deleteProblemStorage(key){
+  const [par, num] = key.split('-').map(Number);
+  const id = dbId(par, num);
+  if(!(getParBlob(par)[num])){ delete teacherDrafts[key]; return true; }
+  const { error } = await sbRpc('delete_question', { p_password_hash: state.teacherPasswordHash, p_id: id });
+  if(error){ lastStorageError = error; return false; }
+  delete teacherDrafts[key];
+  await ensureParLoaded(par, true);
+  await loadTeacherAnswerKey();
+  return true;
+}
+
+/* ---------- ПЕРЕМЕЩЕНИЕ ЗАДАЧИ ---------- */
+/* Перестановку номеров и перенос записей учеников делает SQL-функция
+   move_question — задача oldNum встаёт сразу после afterNum. */
+async function moveProblemAfter(par, oldNum, afterNum){
+  if(getParBlob(par)[oldNum] === undefined || afterNum === oldNum) return true;
+  const { error } = await sbRpc('move_question', { p_password_hash: state.teacherPasswordHash, p_par: par, p_old_num: oldNum, p_after_num: afterNum });
+  if(error){ lastStorageError = error; return false; }
+  await ensureParLoaded(par, true);
+  await loadTeacherAnswerKey();
+  return true;
+}
+
+/* ================= INIT ================= */
+async function init(){
+  await loadParTitleOverrides();
+}
+init();
+
+function normalizeName(s){ return s.trim().replace(/\s+/g,' '); }
+
+let profileEntering = false;
+
+async function enterProfile(){
+  if(profileEntering) return; // защита от повторного клика, пока первая попытка ещё выполняется
+  let val = normalizeName(document.getElementById('gate-name').value);
+  if(!val){ document.getElementById('gate-name').focus(); return; }
+
+  profileEntering = true;
+  const btn = document.getElementById('gate-enter-btn');
+  const nameInput = document.getElementById('gate-name');
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Входим...';
+  nameInput.disabled = true;
+
+  try{
+    state.studentName = val;
+    state.followUpVisible = {}; // сброс "открытых кнопкой" доп. задач предыдущего профиля —
+                                 // иначе новый ученик на этом же устройстве видел бы доп. задачу
+                                 // сразу, без нажатия кнопки, из-за состояния прошлой сессии
+    state.studentData = await loadStudentProgress(val);
+    document.getElementById('gate').style.display = 'none';
+    renderHeader();
+    renderSidebar();
+    renderEmptyMain();
+  } finally {
+    profileEntering = false;
+    nameInput.disabled = false;
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
+/* Подтягивает сохранённый прогресс ученика из Supabase (progress) и
+   переводит его в ту же форму { "par-num": {given, correct, ts, attempts} },
+   которую использует весь остальной интерфейс. */
+async function loadStudentProgress(name){
+  const { data, error } = await sbRpc('get_student_progress', { p_student_name: name });
+  const result = {};
+  if(error || !data) return result;
+  data.forEach(row=>{
+    const baseKey = dbIdToKey(row.question_id);
+    const key = row.is_follow_up ? followUpDataKey(baseKey) : baseKey;
+    result[key] = {
+      given: row.last_answer || '',
+      correct: !!row.last_correct,
+      ts: row.last_timestamp ? new Date(row.last_timestamp).getTime() : Date.now(),
+      attempts: row.attempts || 0
+    };
+  });
+  return result;
+}
+
+function switchProfile(){
+  document.getElementById('gate').style.display = 'flex';
+  const inp = document.getElementById('gate-name');
+  setTimeout(()=>{ inp.focus(); inp.select(); }, 30);
+}
+
+async function enterAsTeacher(){
+  const pass = await customPrompt('Пароль учителя:', true);
+  if(pass === null) return;
+  const hash = await sha256Hex(pass);
+  const { error } = await sbRpc('get_teacher_summary', { p_password_hash: hash });
+  if(error){ await customAlert('Неверный пароль'); return; }
+  state.isTeacher = true;
+  state.teacherPasswordHash = hash;
+  document.getElementById('gate').style.display = 'none';
+  renderHeader();
+  renderSidebar();
+  renderEmptyMain();
+  document.getElementById('teacher-overlay').classList.add('open');
+  switchTab('problems');
+}
+
+/* ================= HEADER ================= */
+function renderHeader(){
+  const hr = document.getElementById('header-right');
+  if(state.studentName){
+    hr.innerHTML = `
+      <div class="profile-chip"><span class="profile-dot"></span>${escapeHtml(state.studentName)}</div>
+      <button type="button" class="btn btn-sm" onclick="switchProfile()">Сменить профиль</button>
+      <button type="button" class="btn btn-sm btn-dark" onclick="openTeacherLogin()">Учитель</button>
+    `;
+  } else {
+    hr.innerHTML = `
+      <div class="profile-chip" style="background:var(--sidebar); color:#fff;"><span class="profile-dot" style="background:var(--amber);"></span>Режим учителя</div>
+      <button type="button" class="btn btn-sm" onclick="switchProfile()">Войти как ученик</button>
+      <button type="button" class="btn btn-sm btn-dark" onclick="openTeacherLogin()">Панель учителя</button>
+    `;
+  }
+}
+
+function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+
+/* ================= SIDEBAR ================= */
+function problemsForPar(par){
+  const blob = state.parBlobs[par] || {};
+  return Object.keys(blob).map(Number).sort((a,b)=>a-b);
+}
+
+/* Название раздела без "I. "/"II. " и т.п. впереди — используется, чтобы
+   понять, дублирует ли единственная тема раздела его же название (так и
+   есть для разделов II, IV, V, VI, VII в структуре ОГЭ — там всего одна
+   тема на раздел). В этом случае лишний уровень вложенности с повтором
+   названия в сайдбаре не показываем, параграфы идут сразу под разделом. */
+function sectionBareName(sectionTitle){
+  return sectionTitle.replace(/^[IVXLCDM]+\.\s*/, '').trim();
+}
+
+function parRowsHtml(pars){
+  return pars.map(p=>{
+    const parOpen = !!state.expandedPar[p.num];
+    const nums = problemsForPar(p.num);
+    return `
+    <div>
+      <div class="par-row" onclick="togglePar(${p.num})">
+        <span class="caret" style="border-color:#5A6A96; ${parOpen?'transform:rotate(45deg);':''}"></span>
+        <span><span class="par-num">§${p.num}</span> ${escapeHtml(PAR_INDEX[p.num].title)}</span>
+      </div>
+      <div class="chips ${parOpen?'open':''}" id="chips-${p.num}">
+        ${nums.length ? nums.map(n=>chipHtml(p.num,n)).join('') : ''}
+      </div>
+      ${parOpen && !nums.length ? `<div class="chip-empty">Задачи пока не добавлены</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderSidebar(){
+  const el = document.getElementById('sidebar');
+  el.innerHTML = CURRICULUM.map((sec, si)=>{
+    const secOpen = !!state.expandedSec[si];
+    const skipSubHeader = sec.subs.length === 1 && sec.subs[0].name === sectionBareName(sec.section);
+    return `
+    <div class="sec-block">
+      <div class="sec-head" onclick="toggleSec(${si})">
+        <span class="caret ${secOpen?'open':''}"></span>${escapeHtml(sec.section)}
+      </div>
+      <div class="sub-list ${secOpen?'open':''}">
+        ${skipSubHeader ? `<div class="par-list open">${parRowsHtml(sec.subs[0].pars)}</div>` : sec.subs.map((sub, ui)=>{
+          const subKey = si+"_"+ui;
+          const subOpen = !!state.expandedSub[subKey];
+          return `
+          <div>
+            <div class="sub-head" onclick="toggleSub('${subKey}')">
+              <span class="caret ${subOpen?'open':''}"></span>${escapeHtml(sub.name)}
+            </div>
+            <div class="par-list ${subOpen?'open':''}">
+              ${parRowsHtml(sub.pars)}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function taskLabel(par, num){
+  // Формат номера задачи: §N, задача M внутри параграфа -> "N.M" (например §3, задача 1 -> 3.1)
+  return par + "." + num;
+}
+
+function chipHtml(par, num){
+  const key = pKey(par,num);
+  const rec = state.studentData[key];
+  const fuRec = state.studentData[followUpDataKey(key)];
+  let cls = '';
+  if(rec){
+    // доп. задача теперь выдаётся за ВЕРНЫЙ основной ответ (бонус, а не
+    // переделка), поэтому её результат не переопределяет цвет "верно/неверно"
+    // основной задачи — тот считается как обычно.
+    cls = rec.correct ? ((rec.attempts>1) ? 'retry' : 'correct') : 'wrong';
+  }
+  // Синяя рамка-напоминание — независима от того, что доп. задача теперь
+  // выдаётся за верный ответ. Рамка появляется, если ученик хоть раз
+  // ошибся в ОСНОВНОЙ задаче (сейчас неверный ответ, либо решил верно, но
+  // не с первой попытки — attempts>1 это и означает), и гаснет только
+  // когда доп. задача решена ВЕРНО (fuRec.correct===true). Если ошибок
+  // в основной задаче не было (верно с первого раза), рамка не появляется,
+  // даже если кнопка бонуса уже показана.
+  const prob = (getParBlob(par) || {})[num];
+  const hasFollowUp = !!(prob && prob.followUp && ((prob.followUp.text && prob.followUp.text.trim()) || (prob.followUp.images && prob.followUp.images.length) || (prob.followUp.wideImages && prob.followUp.wideImages.length)));
+  const everWrongOnMain = !!(rec && (!rec.correct || rec.attempts > 1));
+  const followUpPending = hasFollowUp && everWrongOnMain && !(fuRec && fuRec.correct);
+  const active = state.currentKey===key ? 'active' : '';
+  return `<div class="chip ${cls} ${active} ${followUpPending?'followup-pending':''}" onclick="event.stopPropagation();selectProblem(${par},${num})">${taskLabel(par,num)}</div>`;
+}
+
+function toggleSec(si){ state.expandedSec[si] = !state.expandedSec[si]; renderSidebar(); }
+function toggleSub(key){ state.expandedSub[key] = !state.expandedSub[key]; renderSidebar(); }
+async function togglePar(num){
+  state.expandedPar[num] = !state.expandedPar[num];
+  if(state.expandedPar[num] && !parLoaded[num]){
+    renderSidebar(); // показать раскрытие сразу, задачи подгрузятся чуть позже
+    await ensureParLoaded(num);
+  }
+  renderSidebar();
+}
+
+/* ================= MAIN / PROBLEM VIEW ================= */
+function renderEmptyMain(){
+  document.getElementById('main-inner').innerHTML = `
+    <div class="empty-state">
+      <svg class="wave-big" width="54" height="54" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="3.1" fill="#2F6FED"/>
+        <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#2F6FED" stroke-width="1.6" fill="none"/>
+        <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#2F6FED" stroke-width="1.6" fill="none" transform="rotate(60 20 20)"/>
+        <ellipse cx="20" cy="20" rx="17" ry="6.5" stroke="#2F6FED" stroke-width="1.6" fill="none" transform="rotate(120 20 20)"/>
+      </svg>
+      <h3>Выберите задачу слева</h3>
+      <p>Откройте раздел, тему и параграф, затем нажмите на номер задачи</p>
+    </div>`;
+}
+
+function followUpDataKey(key){ return key + '-followup'; }
+
+async function selectProblem(par, num){
+  const key = pKey(par,num);
+  state.currentKey = key;
+  document.getElementById('sidebar').querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  renderSidebar();
+  const meta = PAR_INDEX[par];
+  // force:true — не полагаемся на parLoaded-кеш параграфа (он мог быть заполнен
+  // раньше, например при раскрытии параграфа в сайдбаре). Без этого ученик,
+  // не обновлявший вкладку, продолжал видеть старое условие/ответ даже после
+  // того, как учитель отредактировал и опубликовал задачу заново.
+  const prob = await fetchProblem(key, true);
+  const rec = state.studentData[key];
+  const hasContent = (prob.text && prob.text.trim()) || (prob.images && prob.images.length) || (prob.wideImages && prob.wideImages.length);
+  const mi = document.getElementById('main-inner');
+
+  // Доп. задача — бонус за ВЕРНЫЙ ответ на основную, но только если он
+  // пришёл ПОСЛЕ хотя бы одной ошибки (rec.attempts>1). Доступность больше
+  // не хранится отдельной записью — вычисляется прямо из результата
+  // основной задачи, поэтому логика не может "потеряться" при пересчёте.
+  const fuKey = followUpDataKey(key);
+  const fuRec = state.studentData[fuKey];
+  const hasFollowUp = !!(prob.followUp && ((prob.followUp.text && prob.followUp.text.trim()) || (prob.followUp.images && prob.followUp.images.length) || (prob.followUp.wideImages && prob.followUp.wideImages.length)));
+  const followUpOffered = hasFollowUp && !!(rec && rec.correct && rec.attempts > 1);
+  const fuAnswered = !!(fuRec && fuRec.attempts > 0);
+  const showFollowUpBlock = followUpOffered && (state.followUpVisible[key] || fuAnswered);
+
+  mi.innerHTML = `
+    <div class="par-eyebrow">${escapeHtml(meta.title)}</div>
+    <h1 class="problem-title">Задача ${taskLabel(par,num)}</h1>
+    <div class="problem-card">
+      <div class="problem-body">
+        ${prob.images && prob.images.length ? `<div class="problem-media">${prob.images.map(src=>`<a href="${src}" target="_blank"><img src="${src}" alt="Условие задачи"></a>`).join('')}</div>` : ''}
+        <div class="problem-text-col">
+          ${prob.text && prob.text.trim() ? `<div class="problem-text">${formatPhysicsText(prob.text)}</div>` : ''}
+          ${!hasContent ? `<div class="problem-text placeholder-text">Условие этой задачи ещё не загружено учителем.</div>` : ''}
+        </div>
+      </div>
+      ${prob.wideImages && prob.wideImages.length ? `<div class="problem-wide-media">${prob.wideImages.map(src=>`<a href="${src}" target="_blank"><img src="${src}" alt="Условие задачи (целиком)"></a>`).join('')}</div>` : ''}
+    </div>
+    <div class="field-label">Ваш ответ</div>
+    <div class="answer-row">
+      <input class="answer-input" id="answer-input" type="text" placeholder="Введите ответ" value="${rec ? escapeAttr(rec.given) : ''}" ${!prob.hasAnswer?'disabled':''} onkeydown="if(event.key==='Enter')submitAnswer('${key}')">
+      <button type="button" class="btn btn-dark" onclick="submitAnswer('${key}')" ${!prob.hasAnswer?'disabled':''}>Проверить</button>
+    </div>
+    <div class="feedback ${rec? (rec.correct?((rec.attempts>1)?'retry':'correct'):'wrong') : ''}" id="feedback">${rec ? (rec.correct?'Верно! Отличная работа.':'Неверно. Попробуйте ещё раз.') : ''}</div>
+    ${!prob.hasAnswer ? `<div class="prev-answer">Проверка появится, когда учитель добавит правильный ответ к этой задаче.</div>` : ''}
+    ${rec ? `<div class="prev-answer">Последняя попытка: ${new Date(rec.ts).toLocaleString('ru-RU')}</div>` : ''}
+    ${followUpOffered && !showFollowUpBlock ? `
+      <div class="followup-trigger">
+        <button type="button" class="btn btn-amber" onclick="showFollowUp('${key}')">Получить дополнительную задачу</button>
+      </div>` : ''}
+    ${showFollowUpBlock ? followUpCardHtml(par, num, prob.followUp, fuRec) : ''}
+  `;
+}
+
+function followUpCardHtml(par, num, fu, fuRec){
+  const key = pKey(par, num);
+  const hasFuContent = (fu.text && fu.text.trim()) || (fu.images && fu.images.length) || (fu.wideImages && fu.wideImages.length);
+  return `
+    <div class="followup-card">
+      <div class="followup-label">Дополнительная задача к ${taskLabel(par,num)}</div>
+      <div class="problem-body">
+        ${fu.images && fu.images.length ? `<div class="problem-media">${fu.images.map(src=>`<a href="${src}" target="_blank"><img src="${src}" alt="Условие дополнительной задачи"></a>`).join('')}</div>` : ''}
+        <div class="problem-text-col">
+          ${fu.text && fu.text.trim() ? `<div class="problem-text">${formatPhysicsText(fu.text)}</div>` : ''}
+          ${!hasFuContent ? `<div class="problem-text placeholder-text">Условие дополнительной задачи ещё не загружено.</div>` : ''}
+        </div>
+      </div>
+      ${fu.wideImages && fu.wideImages.length ? `<div class="problem-wide-media">${fu.wideImages.map(src=>`<a href="${src}" target="_blank"><img src="${src}" alt="Условие дополнительной задачи (целиком)"></a>`).join('')}</div>` : ''}
+      <div class="field-label" style="margin-top:16px;">Ваш ответ</div>
+      <div class="answer-row">
+        <input class="answer-input" id="followup-answer-input" type="text" placeholder="Введите ответ" value="${fuRec ? escapeAttr(fuRec.given) : ''}" ${!fu.hasAnswer?'disabled':''} onkeydown="if(event.key==='Enter')submitFollowUpAnswer('${key}')">
+        <button type="button" class="btn btn-dark" onclick="submitFollowUpAnswer('${key}')" ${!fu.hasAnswer?'disabled':''}>Проверить</button>
+      </div>
+      <div class="feedback ${fuRec? (fuRec.correct?((fuRec.attempts>1)?'retry':'correct'):'wrong') : ''}" id="followup-feedback">${fuRec ? (fuRec.correct?'Верно! Отличная работа.':'Неверно. Попробуйте ещё раз.') : ''}</div>
+      ${!fu.hasAnswer ? `<div class="prev-answer">Проверка появится, когда учитель добавит правильный ответ к этой задаче.</div>` : ''}
+    </div>
+  `;
+}
+
+function showFollowUp(key){
+  state.followUpVisible[key] = true;
+  const [par, num] = key.split('-').map(Number);
+  selectProblem(par, num);
+}
+
+function normalizeAns(s){
+  return (s||'').toString().trim().toLowerCase().replace(/,/g,'.').replace(/\s+/g,'');
+}
+
+async function submitAnswer(key){
+  if(!state.studentName){ await customAlert('Чтобы сохранять ответы, войдите как ученик (введите имя на экране входа).'); return; }
+  const [par, num] = key.split('-').map(Number);
+  const input = document.getElementById('answer-input');
+  const given = input.value.trim();
+  if(!given) { input.focus(); return; }
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.style.display = 'block';
+  fb.style.background = 'var(--blue-soft)'; fb.style.color = 'var(--blue)';
+  fb.textContent = 'Проверяем...';
+
+  const { data, error } = await sbRpc('submit_answer', {
+    p_student_name: state.studentName,
+    p_question_id: dbId(par, num),
+    p_answer: given,
+    p_is_follow_up: false
+  });
+
+  if(error){
+    fb.style.background = 'var(--red-soft)'; fb.style.color = 'var(--red)';
+    fb.textContent = 'Не удалось сохранить ответ. Проверьте связь и нажмите «Проверить» ещё раз.';
+    return;
+  }
+
+  const row = Array.isArray(data) ? data[0] : data;
+  const correct = row.is_correct;
+  const attempts = row.attempt_number;
+  state.studentData[key] = { given, correct, ts: Date.now(), attempts };
+
+  fb.style.background = ''; fb.style.color = '';
+  const retry = correct && attempts > 1;
+  fb.className = 'feedback ' + (correct ? (retry ? 'retry' : 'correct') : 'wrong');
+  fb.textContent = correct ? 'Верно! Отличная работа.' : 'Неверно. Попробуйте ещё раз.';
+  // полная перерисовка панели: без этого кнопка «Получить дополнительную
+  // задачу» и синяя рамка в меню появлялись только при повторном открытии
+  // задачи, а не сразу после неверного ответа
+  await selectProblem(par, num);
+}
+
+/* Проверка ответа на дополнительную (вложенную) задачу. key — ключ ОСНОВНОЙ
+   задачи ("par-num"); результат хранится отдельной записью studentData под
+   followUpDataKey(key), чтобы не путаться со статистикой основной задачи. */
+async function submitFollowUpAnswer(key){
+  if(!state.studentName){ await customAlert('Чтобы сохранять ответы, войдите как ученик (введите имя на экране входа).'); return; }
+  const fuKey = followUpDataKey(key);
+  const input = document.getElementById('followup-answer-input');
+  const given = input.value.trim();
+  if(!given) { input.focus(); return; }
+  const fb = document.getElementById('followup-feedback');
+  fb.className = 'feedback';
+  fb.style.display = 'block';
+  fb.style.background = 'var(--blue-soft)'; fb.style.color = 'var(--blue)';
+  fb.textContent = 'Проверяем...';
+
+  const [par, num] = key.split('-').map(Number);
+
+  const { data, error } = await sbRpc('submit_answer', {
+    p_student_name: state.studentName,
+    p_question_id: dbId(par, num),
+    p_answer: given,
+    p_is_follow_up: true
+  });
+
+  if(error){
+    fb.style.background = 'var(--red-soft)'; fb.style.color = 'var(--red)';
+    fb.textContent = 'Не удалось сохранить ответ. Проверьте связь и нажмите «Проверить» ещё раз.';
+    return;
+  }
+
+  const row = Array.isArray(data) ? data[0] : data;
+  const correct = row.is_correct;
+  const attempts = row.attempt_number;
+  state.studentData[fuKey] = { given, correct, ts: Date.now(), attempts };
+
+  fb.style.background = ''; fb.style.color = '';
+  const retry = correct && attempts > 1;
+  fb.className = 'feedback ' + (correct ? (retry ? 'retry' : 'correct') : 'wrong');
+  fb.textContent = correct ? 'Верно! Отличная работа.' : 'Неверно. Попробуйте ещё раз.';
+  // та же причина: полностью перерисовываем панель, чтобы синяя рамка в меню
+  // сразу стала обычной и карточка доп. задачи отразила актуальный статус
+  await selectProblem(par, num);
+}
+
+function escapeHtml(s){
+  return (s===undefined||s===null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s){ return escapeHtml(s); }
+
+/* Скачивает переданный объект/массив как .json файл — используется и
+   экспортом базы задач, и экспортом результатов учеников (см. ниже). */
+function downloadJson(filename, dataObj){
+  const blob = new Blob([JSON.stringify(dataObj, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+/* Находит индекс закрывающей "}" для "{", начинающейся в позиции openIdx (с учётом вложенности). */
+function matchBrace(text, openIdx){
+  let depth = 0;
+  for(let k = openIdx; k < text.length; k++){
+    if(text[k] === '{') depth++;
+    else if(text[k] === '}'){ depth--; if(depth === 0) return k; }
+  }
+  return -1;
+}
+
+/* Единый рекурсивный разборщик текста условия:
+   - латинские буквы — курсивом (обозначения величин);
+   - цифры — тем же шрифтом, но прямым начертанием (как в формулах);
+   - «буква + объединяющая стрелка» → CSS-стрелка над буквой (не зависит от шрифта);
+   - √{...} → корень с чертой над выражением;
+   - ^{...} / ^x → верхний индекс (степень) — любое выражение, не только цифры;
+   - _{...} / _x → нижний индекс — любое выражение;
+   индексы и степени можно вкладывать друг в друга и комбинировать. */
+const MATH_FUNCTION_NAMES = new Set(['sin','cos','tg','ctg','ln','log','arcsin','arccos','arctg']);
+
+/* Невидимый маркер принудительного переноса строки (используется кнопкой
+   «¶ Новый абзац» на панели формул) — см. insertParagraphBreak() и smartWrap() ниже. */
+const PARAGRAPH_BREAK_MARKER = '\u200B';
+
+function formatMath(raw){
+  const text = raw || '';
+  let out = '';
+  let i = 0;
+  while(i < text.length){
+    const ch = text[i];
+
+    if(ch === '√' && text[i+1] === '{'){
+      const close = matchBrace(text, i+1);
+      if(close !== -1){
+        const inner = text.slice(i+2, close);
+        // Дробь под корнем выше обычного текста (числитель+черта+знаменатель) —
+        // сам символ √ для неё маловат, между его "галочкой" и верхней чертой
+        // образуется зазор. Увеличиваем шрифт радикала под такой контент.
+        const tall = /\/\{/.test(inner);
+        out += `<span class="sqrt-wrap${tall?' sqrt-tall':''}"><span class="sqrt-radical">√</span><span class="sqrt-content">${formatMath(inner)}</span></span>`;
+        i = close + 1; continue;
+      }
+    }
+    if(ch === '#' && text[i+1] === '{'){
+      const close = matchBrace(text, i+1);
+      if(close !== -1){
+        out += `<span class="overline">${formatMath(text.slice(i+2, close))}</span>`;
+        i = close + 1; continue;
+      }
+    }
+    if(ch === '/' && text[i+1] === '{'){
+      const c1 = matchBrace(text, i+1);
+      if(c1 !== -1 && text[c1+1] === '{'){
+        const c2 = matchBrace(text, c1+1);
+        if(c2 !== -1){
+          const num = text.slice(i+2, c1), den = text.slice(c1+2, c2);
+          out += `<span class="frac"><span class="frac-num">${formatMath(num)}</span><span class="frac-den">${formatMath(den)}</span></span>`;
+          i = c2 + 1; continue;
+        }
+      }
+    }
+    if(ch === '~' && text[i+1] === '{'){
+      const c1 = matchBrace(text, i+1);
+      if(c1 !== -1 && text[c1+1] === '{'){
+        const c2 = matchBrace(text, c1+1);
+        if(c2 !== -1){
+          const top = text.slice(i+2, c1), bottom = text.slice(c1+2, c2);
+          let j = c2+1;
+          while(j < text.length && /[A-Za-zА-Яа-я]/.test(text[j])) j++;
+          const elementSymbol = text.slice(c2+1, j);
+          out += `<span class="nuclide-pre"><span>${formatMath(top)}</span><span>${formatMath(bottom)}</span></span><span class="upright-fn">${escapeHtml(elementSymbol)}</span>`;
+          i = j; continue;
+        }
+      }
+    }
+    if(ch === '^' && text[i+1] === '{'){
+      const close = matchBrace(text, i+1);
+      if(close !== -1){
+        out += `<sup>${formatMath(text.slice(i+2, close))}</sup>`;
+        i = close + 1; continue;
+      }
+    }
+    if(ch === '^' && text[i+1] && /[A-Za-zА-Яа-я0-9]/.test(text[i+1])){
+      out += `<sup>${formatMath(text[i+1])}</sup>`;
+      i += 2; continue;
+    }
+    if(ch === '_' && text[i+1] === '{'){
+      const close = matchBrace(text, i+1);
+      if(close !== -1){
+        out += `<sub>${formatMath(text.slice(i+2, close))}</sub>`;
+        i = close + 1; continue;
+      }
+    }
+    if(ch === '_' && text[i+1] && /[A-Za-zА-Яа-я0-9]/.test(text[i+1])){
+      out += `<sub>${formatMath(text[i+1])}</sub>`;
+      i += 2; continue;
+    }
+    if(/[A-Za-z]/.test(ch) && text[i+1] === '\u20D7'){
+      out += `<span class="vec-wrap"><span class="vec-arrow">→</span>${escapeHtml(ch)}</span>`;
+      i += 2; continue;
+    }
+    if(/[A-Za-z]/.test(ch)){
+      let j = i+1;
+      while(j < text.length && /[A-Za-z]/.test(text[j])) j++;
+      const word = text.slice(i,j);
+      if(MATH_FUNCTION_NAMES.has(word.toLowerCase())){
+        out += `<span class="upright-fn">${escapeHtml(word)}</span>`;
+      } else {
+        out += `<i>${escapeHtml(word)}</i>`;
+      }
+      i = j; continue;
+    }
+    if(/[0-9]/.test(ch)){
+      let j = i+1;
+      while(j < text.length && /[0-9]/.test(text[j])) j++;
+      out += `<span class="cm-num">${escapeHtml(text.slice(i,j))}</span>`;
+      i = j; continue;
+    }
+    out += escapeHtml(ch);
+    i++;
+  }
+  return out;
+}
+
+/* Убирает вынужденные переносы строк, оставшиеся от вёрстки исходного PDF
+   (текст был подогнан под конкретную ширину страницы), и даёт тексту
+   переноситься естественным образом по ширине экрана. Настоящие,
+   осмысленные разрывы — перед вариантами ответа 1)/2)/3)/4), перед «Ответ:»,
+   перед строками с маркером принудительного переноса (PARAGRAPH_BREAK_MARKER,
+   вставляется кнопкой «¶ Новый абзац») и пустые строки (абзацы) — сохраняются.
+   Маркер после этого вырезается — он служебный, для отображения не нужен.
+   Отдельным шагом варианты 1)/2)/3)/4), оказавшиеся ВНУТРИ строки (например,
+   если они шли подряд одной строкой из исходного PDF, без переноса между
+   ними), тоже переносятся на новую строку — это частый случай при вставке
+   текста вариантов ответа "как есть". */
+function smartWrap(text){
+  const lines = text.split('\n');
+  let out = lines[0] !== undefined ? lines[0] : '';
+  for(let i=1; i<lines.length; i++){
+    const line = lines[i];
+    const trimmed = line.trim();
+    const isMarked = trimmed.startsWith(PARAGRAPH_BREAK_MARKER);
+    const isBreakBefore = isMarked || /^[1-4]\)/.test(trimmed) || /^Ответ\s*:/i.test(trimmed) || /^Запишите в таблицу/i.test(trimmed);
+    const prevBlank = lines[i-1].trim() === '';
+    const curBlank = trimmed === '';
+    if(isBreakBefore || prevBlank || curBlank){
+      out += '\n' + line;
+    } else {
+      out = out.replace(/[ \t]+$/,'') + ' ' + trimmed;
+    }
+  }
+  // варианты ответа, оказавшиеся посреди строки (после пробела, не после
+  // уже имеющегося переноса) — тоже переносим на новую строку. Требуем
+  // пробел/таб непосредственно перед цифрой, поэтому число вида "21)" не
+  // задевается (перед "1" там стоит цифра "2", а не пробел).
+  out = out.replace(/[ \t]+(?=[1-4]\)(?!\d))/g, '\n');
+  return out.split(PARAGRAPH_BREAK_MARKER).join('');
+}
+
+function formatPhysicsText(raw){
+  const text = raw || '';
+  const tableRe = /\[table\]([\s\S]*?)\[\/table\]/g;
+  let out = '';
+  let last = 0;
+  let m;
+  while((m = tableRe.exec(text)) !== null){
+    out += formatMath(smartWrap(text.slice(last, m.index))).replace(/\n/g,'<br>');
+    const rows = m[1].split('\n').map(r=>r.trim()).filter(r=>r.length);
+    out += `<table class="prob-table"><tbody>${rows.map(r=>
+      `<tr>${r.split('|').map(c=>`<td>${formatMath(c.trim())}</td>`).join('')}</tr>`
+    ).join('')}</tbody></table>`;
+    last = tableRe.lastIndex;
+  }
+  out += formatMath(smartWrap(text.slice(last))).replace(/\n/g,'<br>');
+  return out;
+}
+
+/* ================= TEACHER PANEL ================= */
+async function openTeacherLogin(){
+  const pass = await customPrompt('Пароль учителя:', true);
+  if(pass === null) return;
+  const hash = await sha256Hex(pass);
+  const { error } = await sbRpc('get_teacher_summary', { p_password_hash: hash });
+  if(error){ await customAlert('Неверный пароль'); return; }
+  state.isTeacher = true;
+  state.teacherPasswordHash = hash;
+  document.getElementById('teacher-overlay').classList.add('open');
+  switchTab('problems');
+}
+function closeTeacher(){ document.getElementById('teacher-overlay').classList.remove('open'); }
+
+function switchTab(tab){
+  document.getElementById('tab-problems').classList.toggle('active', tab==='problems');
+  document.getElementById('tab-results').classList.toggle('active', tab==='results');
+  if(tab==='problems') renderProblemsTab(); else renderResultsTab();
+}
+
+function allParOptions(selected){
+  let html = '';
+  CURRICULUM.forEach(sec=>sec.subs.forEach(sub=>sub.pars.forEach(p=>{
+    html += `<option value="${p.num}" ${selected==p.num?'selected':''}>§${p.num} — ${escapeHtml(PAR_INDEX[p.num].title)}</option>`;
+  })));
+  return html;
+}
+
+/* Переименование параграфа: пишет ОДИН маленький shared-объект physapp_par_titles
+   целиком (не блоб задач параграфа — его сюда трогать не нужно). Пустое значение
+   или значение, совпадающее с исходным названием, убирает переопределение. */
+async function saveParTitle(par){
+  const input = document.getElementById('par-title-input');
+  if(!input) return;
+  const val = input.value.trim();
+  if(!val){ await customAlert('Название не может быть пустым.'); return; }
+
+  let error;
+  if(val !== PAR_TITLE_BASE[par]){
+    ({ error } = await sbRpc('set_paragraph_title', { p_password_hash: state.teacherPasswordHash, p_par: par, p_title: val }));
+  } else {
+    ({ error } = await sbRpc('reset_paragraph_title', { p_password_hash: state.teacherPasswordHash, p_par: par }));
+  }
+  if(error){ await customAlert('Не удалось сохранить название.'); return; }
+  await loadParTitleOverrides(true);
+  renderSidebar();
+  drawProblemsTab();
+}
+
+async function resetParTitle(par){
+  const { error } = await sbRpc('reset_paragraph_title', { p_password_hash: state.teacherPasswordHash, p_par: par });
+  if(error){ await customAlert('Не удалось сбросить название.'); return; }
+  await loadParTitleOverrides(true);
+  renderSidebar();
+  drawProblemsTab();
+}
+
+let teacherSelectedPar = 1;
+let teacherAnswerKeyCache = {}; // "par.num" -> {answer, followUpAnswer} — только для учителя
+
+async function loadTeacherAnswerKey(){
+  const { data, error } = await sbRpc('get_teacher_answer_key', { p_password_hash: state.teacherPasswordHash });
+  teacherAnswerKeyCache = {};
+  if(!error && data) data.forEach(r=>{ teacherAnswerKeyCache[r.question_id] = { answer: r.answer, followUpAnswer: r.follow_up_answer }; });
+}
+
+/* Выгружает ВСЮ базу задач (все параграфы, с ответами и картинками) одним
+   JSON-файлом. Формат элемента массива совпадает с тем, что ожидает
+   import-questions.js на входе ({par, num, text, images, wideImages,
+   answer, followUp:{...}}) — файл можно не только использовать как бэкап,
+   но и при необходимости загрузить обратно тем же скриптом. Картинки в
+   формате base64 (data:...) выгружаются как есть — файл может получиться
+   тяжёлым, если картинок много, это нормально. */
+async function exportAllQuestions(){
+  const btn = document.getElementById('export-questions-btn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Готовим файл...'; }
+  try{
+    await loadAllParBlobs(true, (done,total)=>{ if(btn) btn.textContent = `Загрузка ${done} из ${total}...`; });
+    const { data: keyRows, error } = await sbRpc('get_teacher_answer_key', { p_password_hash: state.teacherPasswordHash });
+    if(error){ await customAlert('Не удалось выгрузить ответы. Попробуйте ещё раз.'); return; }
+    const keyMap = {};
+    (keyRows||[]).forEach(r=>{ keyMap[r.question_id] = { answer: r.answer, followUpAnswer: r.follow_up_answer }; });
+
+    const out = [];
+    for(let par=1; par<=TOTAL_PARS; par++){
+      const blob = getParBlob(par);
+      Object.keys(blob).map(Number).sort((a,b)=>a-b).forEach(num=>{
+        const q = blob[num];
+        const id = dbId(par, num);
+        const ak = keyMap[id] || {};
+        const item = {
+          par, num,
+          text: q.text || '',
+          images: q.images || [],
+          wideImages: q.wideImages || [],
+          answer: ak.answer !== undefined ? ak.answer : null
+        };
+        if(q.followUp){
+          item.followUp = {
+            text: q.followUp.text || '',
+            images: q.followUp.images || [],
+            wideImages: q.followUp.wideImages || [],
+            answer: ak.followUpAnswer !== undefined ? ak.followUpAnswer : null
+          };
+        }
+        out.push(item);
+      });
+    }
+    downloadJson(`zadachnik_phys_oge_${new Date().toISOString().slice(0,10)}.json`, out);
+  } finally {
+    if(btn){ btn.disabled = false; btn.textContent = 'Скачать всю базу задач (JSON)'; }
+  }
+}
+
+async function loadParDrafts(par){
+  await ensureParLoaded(par, true);
+  await loadTeacherAnswerKey();
+  const nums = problemsForPar(par);
+  teacherDrafts = {};
+  for(const n of nums){
+    const key = pKey(par, n);
+    const data = await fetchProblem(key);
+    const fu = data.followUp;
+    const ak = teacherAnswerKeyCache[dbId(par, n)] || {};
+    teacherDrafts[key] = {
+      text: data.text||'', answer: ak.answer||'',
+      images: (data.images||[]).slice(), wideImages: (data.wideImages||[]).slice(),
+      hasFollowUp: !!fu,
+      fuText: fu ? (fu.text||'') : '', fuAnswer: ak.followUpAnswer||'',
+      fuImages: fu ? (fu.images||[]).slice() : [], fuWideImages: fu ? (fu.wideImages||[]).slice() : []
+    };
+  }
+  teacherDrafts['new'] = { text:'', answer:'', images:[], wideImages:[], hasFollowUp:false, fuText:'', fuAnswer:'', fuImages:[], fuWideImages:[] };
+}
+
+async function renderProblemsTab(){
+  const body = document.getElementById('tm-body');
+  body.innerHTML = `<p>Загрузка...</p>`;
+  await loadParDrafts(teacherSelectedPar);
+  drawProblemsTab();
+}
+
+function drawProblemsTab(){
+  const body = document.getElementById('tm-body');
+  const nums = problemsForPar(teacherSelectedPar);
+  const nextNum = nums.length ? Math.max(...nums)+1 : 1;
+  const insertMode = insertAfterNum !== null;
+  const newNum = insertMode ? insertAfterNum + 1 : nextNum;
+
+  body.innerHTML = `
+    <div class="hint-box">
+      Условие можно ввести текстом, приложить одну или несколько фотографий (2–3 картинки на задачу — не проблема).<br>
+      Панель формул над текстом: степени/индексы, буква с вектором (напечатайте букву, потом нажмите значок), греческие буквы, корень с чертой над выражением (выделите текст и нажмите √̅, или просто нажмите — вставится <code>√{}</code> с курсором внутри скобок) и вставка небольшой таблицы (строки — с новой строки, столбцы через «|»).<br>
+      Верхний и нижний индекс одновременно (например v₁²): напечатайте букву, нажмите x_{ } и впишите нижний индекс, затем сразу x^{ } и впишите степень — они встанут друг за другом на той же букве.<br>
+      Дробь с чертой (кнопка a/b) — выделите числитель перед нажатием, курсор перейдёт в знаменатель. Запись изотопа (кнопка ☢ AZX) — массовое и зарядовое число друг над другом слева от символа, например для урана-235 впишите 235 в первые скобки, 92 — во вторые, затем допишите букву U сразу после.<br>
+      Массовая загрузка большого количества задач из JSON — через отдельный скрипт <code>import-questions.js</code> (запускается на компьютере), не через эту форму.
+    </div>
+
+    <div style="margin-bottom:18px;">
+      <button type="button" id="export-questions-btn" class="btn btn-sm" onclick="exportAllQuestions()">Скачать всю базу задач (JSON)</button>
+    </div>
+
+    <div class="field-label">Выберите параграф</div>
+    <select id="par-select" onchange="teacherSelectedPar=parseInt(this.value); insertAfterNum=null; renderProblemsTab();" style="margin-bottom:16px;">
+      ${allParOptions(teacherSelectedPar)}
+    </select>
+
+    <div class="row-2" style="margin-bottom:16px; align-items:end;">
+      <div>
+        <div class="field-label">Название параграфа §${teacherSelectedPar}</div>
+        <input type="text" id="par-title-input" value="${escapeAttr(PAR_INDEX[teacherSelectedPar].title)}">
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn btn-sm btn-dark" onclick="saveParTitle(teacherSelectedPar)">Сохранить название</button>
+        ${parTitleOverrides[teacherSelectedPar] ? `<button type="button" class="btn btn-sm" onclick="resetParTitle(teacherSelectedPar)">Сбросить к исходному</button>` : ''}
+      </div>
+    </div>
+
+    <div id="par-problems-list">
+      ${nums.length ? nums.map(n=>problemEditRow(teacherSelectedPar,n)).join('') : `<div class="prev-answer" style="margin-bottom:12px;">В этом параграфе пока нет задач.</div>`}
+    </div>
+    ${nums.length ? `<div style="margin:8px 0 16px;"><button type="button" id="save-all-btn" class="btn btn-dark" onclick="saveAllProblems()">Сохранить все изменения в §${teacherSelectedPar}</button></div>` : ''}
+
+    <div class="form-grid" id="add-form" data-imgkey="new">
+      ${insertMode ? `
+        <div class="insert-badge">
+          <span>Новая задача будет вставлена после ${taskLabel(teacherSelectedPar, insertAfterNum)} и получит номер ${taskLabel(teacherSelectedPar, newNum)}. Последующие задачи сдвинутся.</span>
+          <button type="button" class="btn btn-sm" onclick="insertAfterNum=null; drawProblemsTab();">Отмена</button>
+        </div>
+      ` : `<div class="field-label">Добавить новую задачу в §${teacherSelectedPar} (в конец, номер ${taskLabel(teacherSelectedPar, newNum)})</div>`}
+
+      <div>
+        <div class="field-label">Условие (текст)</div>
+        ${formulaToolbarHtml('new-text')}
+        <textarea id="new-text" placeholder="Текст условия...">${escapeHtml(teacherDrafts['new'] ? teacherDrafts['new'].text : '')}</textarea>
+        <div style="margin-top:6px;">
+          <span class="field-label" style="display:inline;">или загрузить .txt файл:</span>
+          <input type="file" accept=".txt" onchange="loadTextFileInto('new-text', event)">
+        </div>
+      </div>
+      <div data-imgfield="images">
+        <div class="field-label">Изображения условия <span style="text-transform:none; font-weight:400; color:var(--muted);">(можно вставить из буфера — Ctrl+V)</span></div>
+        ${imgGalleryHtml('new','images')}
+        <input type="file" accept="image/*" multiple onchange="addImagesToDraft('new', event, 'images')">
+        ${urlAddRowHtml('new','images')}
+      </div>
+      <div data-imgfield="wideImages">
+        <div class="field-label">Картинка на всю ширину (под текстом) <span style="text-transform:none; font-weight:400; color:var(--muted);">(можно вставить из буфера — Ctrl+V; если текста нет, это и будет условием целиком)</span></div>
+        ${imgGalleryHtml('new','wideImages')}
+        <input type="file" accept="image/*" multiple onchange="addImagesToDraft('new', event, 'wideImages')">
+        ${urlAddRowHtml('new','wideImages')}
+      </div>
+      <div>
+        <div class="field-label">Правильный ответ</div>
+        <input type="text" id="new-answer" placeholder="например: 12.5 м/с" value="${escapeAttr(teacherDrafts['new'] ? teacherDrafts['new'].answer : '')}">
+      </div>
+      ${followUpSectionHtml('new', teacherDrafts['new'])}
+      <button type="button" class="btn btn-dark" onclick="addProblem(this)">${insertMode ? 'Вставить задачу' : 'Сохранить задачу'}</button>
+    </div>
+  `;
+}
+
+/* Альтернатива загрузке файла: вставить прямую ссылку на уже где-то
+   размещённую картинку. Хранится тогда только сама строка-URL (десятки
+   байт), а не base64 картинки (сотни КБ – единицы МБ) — критично важно,
+   когда общий объём хранилища артефакта (лимит ~20 МБ на весь артефакт,
+   не на параграф) уже близок к исчерпанию. Ссылка просто добавляется в
+   тот же массив images/wideImages, что и base64-картинки — рендер условия
+   их не различает (<img src="...">), так что можно свободно мешать оба
+   способа в одной задаче. */
+function isLikelyImageUrl(u){ return /^https?:\/\/\S+$/i.test((u||'').trim()); }
+
+async function addImageUrlToDraft(key, field, inputId){
+  const el = document.getElementById(inputId);
+  if(!el) return;
+  const url = el.value.trim();
+  if(!url) return;
+  if(!isLikelyImageUrl(url)){ await customAlert('Похоже на некорректную ссылку — она должна начинаться с http:// или https:// и указывать прямо на файл картинки.'); return; }
+  if(!teacherDrafts[key]) teacherDrafts[key] = {text:'',answer:'',images:[],wideImages:[]};
+  if(!teacherDrafts[key][field]) teacherDrafts[key][field] = [];
+  teacherDrafts[key][field].push(url);
+  el.value = '';
+  refreshDraftUI(key, field);
+}
+
+function urlAddRowHtml(key, field){
+  const inputId = 'url-input-' + key + '-' + field;
+  return `<div style="display:flex; gap:6px; margin-top:6px;">
+    <input type="text" id="${inputId}" placeholder="или вставьте прямую ссылку на картинку (https://...) — почти не расходует лимит хранилища" onkeydown="if(event.key==='Enter'){event.preventDefault();addImageUrlToDraft('${key}','${field}','${inputId}');}">
+    <button type="button" class="btn btn-sm" onclick="addImageUrlToDraft('${key}','${field}','${inputId}')">Добавить по ссылке</button>
+  </div>`;
+}
+
+function imgGalleryHtml(key, field){
+  field = field || 'images';
+  const d = teacherDrafts[key];
+  if(!d || !d[field] || !d[field].length) return '';
+  return `<div class="img-gallery" style="margin-top:0;">
+    ${d[field].map((src,i)=>`
+      <div class="img-thumb-wrap">
+        <img class="img-thumb" src="${src}">
+        <div class="img-thumb-remove" onclick="removeImageFromDraft('${key}',${i},'${field}')">✕</div>
+      </div>`).join('')}
+  </div>`;
+}
+
+function fileToDataURL(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = ()=>resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+/* Сжатие картинки перед сохранением в хранилище: скриншоты задач из PDF часто
+   весят по несколько МБ каждый (высокое разрешение исходного скана), а один
+   файл хранилища физически хранит ВСЕ картинки ВСЕХ задач параграфа сразу
+   (лимит 5 МБ на ключ) — без сжатия параграф с 3-5 задачами и парой картинок
+   в каждой легко упрётся в лимит. Поэтому картинка перерисовывается на canvas
+   с уменьшением до maxDim по большей стороне и пересохраняется как JPEG с
+   заданным качеством — для сканов текста/формул это почти не заметно на глаз,
+   а вес обычно падает в 5-15 раз. Если что-то пошло не так (canvas недоступен,
+   ошибка декодирования) — используется исходный файл как есть, ничего не теряется. */
+function compressImageFile(file, maxDim, quality){
+  maxDim = maxDim || 1500;
+  quality = quality || 0.82;
+  return new Promise(resolve=>{
+    if(!file || !file.type || !file.type.startsWith('image/')){
+      fileToDataURL(file).then(resolve).catch(()=>resolve(null));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+        if(!w || !h){ resolve(reader.result); return; }
+        if(w > maxDim || h > maxDim){
+          if(w >= h){ h = Math.round(h * maxDim / w); w = maxDim; }
+          else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        try{
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff'; // фон под прозрачность PNG — при JPEG прозрачности всё равно нет
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          const jpegUrl = canvas.toDataURL('image/jpeg', quality);
+          // подстраховка: если пересжатая версия почему-то оказалась тяжелее исходника
+          // (бывает с уже маленькими/простыми картинками) — берём то, что легче
+          resolve(jpegUrl.length < reader.result.length ? jpegUrl : reader.result);
+        }catch(e){
+          resolve(reader.result);
+        }
+      };
+      img.onerror = ()=>resolve(reader.result);
+      img.src = reader.result;
+    };
+    reader.onerror = ()=>resolve(null);
+    reader.readAsDataURL(file);
+  });
+}
+
+/* То же сжатие, что и compressImageFile, но для картинки, УЖЕ хранящейся как
+   base64 data-URL (не File) — используется для "пересжатия" уже сохранённых
+   картинок параграфа, в частности тех, что попали через импорт JSON и не
+   проходили через компрессию (импортированные файлы могут быть исходными
+   сканами в несколько МБ каждый). */
+function compressDataUrl(dataUrl, maxDim, quality){
+  maxDim = maxDim || 1500;
+  quality = quality || 0.78;
+  return new Promise(resolve=>{
+    if(!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image')){ resolve(dataUrl); return; }
+    const img = new Image();
+    img.onload = ()=>{
+      let w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+      if(!w || !h){ resolve(dataUrl); return; }
+      if(w > maxDim || h > maxDim){
+        if(w >= h){ h = Math.round(h * maxDim / w); w = maxDim; }
+        else { w = Math.round(w * maxDim / h); h = maxDim; }
+      }
+      try{
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        const jpegUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(jpegUrl.length < dataUrl.length ? jpegUrl : dataUrl);
+      }catch(e){ resolve(dataUrl); }
+    };
+    img.onerror = ()=>resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+async function recompressImagesArray(arr, maxDim){
+  const out = [];
+  for(const src of (arr||[])) out.push(await compressDataUrl(src, maxDim, 0.78));
+  return out;
+}
+
+
+async function addImageBlobsToDraft(key, blobs, field){
+  field = field || 'images';
+  if(!teacherDrafts[key]) teacherDrafts[key] = {text:'',answer:'',images:[],wideImages:[]};
+  if(!teacherDrafts[key][field]) teacherDrafts[key][field] = [];
+  // "Картинка на всю ширину" обычно содержит больше мелких деталей/текста
+  // (схемы, таблицы, целые страницы) — оставляем ей чуть больший размер,
+  // чем узкой колонке "images" слева от текста.
+  const maxDim = field === 'wideImages' ? 1700 : 1100;
+  for(const b of blobs){
+    try{ const url = await compressImageFile(b, maxDim, 0.82); if(url) teacherDrafts[key][field].push(url); }
+    catch(e){}
+  }
+  refreshDraftUI(key, field);
+}
+
+async function addImagesToDraft(key, evt, field){
+  const files = Array.from(evt.target.files || []);
+  evt.target.value = '';
+  await addImageBlobsToDraft(key, files, field);
+}
+
+/* Единый трекер «где сейчас работает пользователь с картинками» — обновляется
+   и по клику (capture-фаза, срабатывает даже на некликабельных div/label —
+   именно там раньше был баг: клик по подписи/галерее НЕ меняет document.activeElement,
+   старый фокус в другом поле оставался «главным» и побеждал новый клик), и по
+   реальному фокусу (focusin — например при переходе по Tab). Кто сработал позже —
+   тот и прав, отдельно проверять document.activeElement в момент paste не нужно. */
+let lastImgKey = null, lastImgField = null;
+function trackImgTarget(el){
+  const keyEl = el.closest && el.closest('[data-imgkey]');
+  if(!keyEl) return;
+  const fieldEl = el.closest && el.closest('[data-imgfield]');
+  lastImgKey = keyEl.getAttribute('data-imgkey');
+  lastImgField = fieldEl ? fieldEl.getAttribute('data-imgfield') : null;
+}
+document.addEventListener('click', (e)=>trackImgTarget(e.target), true);
+document.addEventListener('focusin', (e)=>trackImgTarget(e.target));
+
+/* Вставка картинки из буфера обмена (Ctrl+V) прямо в нужное поле —
+   «Изображения условия» (слева) или «Картинка на всю ширину» (внизу задачи).
+   Источник истины — lastImgKey/lastImgField (см. trackImgTarget выше). Если
+   пользователь ещё никуда не кликал — ничего не вставляем (не угадываем),
+   чтобы не промахнуться мимо задачи. */
+document.addEventListener('paste', async (e)=>{
+  const items = e.clipboardData && e.clipboardData.items;
+  if(!items) return;
+  const imageItems = Array.from(items).filter(it => it.kind === 'file' && it.type && it.type.startsWith('image/'));
+  if(!imageItems.length) return;
+  if(!lastImgKey) return; // не найдено надёжного адресата
+
+  e.preventDefault();
+  const key = lastImgKey;
+  const field = lastImgField || 'images';
+  const blobs = imageItems.map(it=>it.getAsFile()).filter(Boolean);
+  await addImageBlobsToDraft(key, blobs, field);
+});
+
+function removeImageFromDraft(key, idx, field){
+  field = field || 'images';
+  teacherDrafts[key][field].splice(idx,1);
+  refreshDraftUI(key, field);
+}
+
+/* Перед любой перерисовкой строки (добавление картинки, переключение
+   галочки «есть доп. задача») подтягиваем из DOM в teacherDrafts всё, что
+   пользователь мог успеть напечатать — иначе innerHTML-перерисовка это сотрёт. */
+function syncFollowUpInputs(key){
+  const d = teacherDrafts[key];
+  if(!d) return;
+  const cb = document.getElementById('fu-check-'+key);
+  const ft = document.getElementById('fu-text-'+key);
+  const fa = document.getElementById('fu-answer-'+key);
+  if(cb) d.hasFollowUp = cb.checked;
+  if(ft) d.fuText = ft.value;
+  if(fa) d.fuAnswer = fa.value;
+}
+
+function toggleFollowUp(key){
+  refreshDraftUI(key, null);
+}
+
+function refreshDraftUI(key, field){
+  lastImgKey = key;
+  lastImgField = field || null;
+  if(key === 'new'){
+    if(!teacherDrafts['new']) teacherDrafts['new'] = {text:'',answer:'',images:[],wideImages:[],hasFollowUp:false,fuText:'',fuAnswer:'',fuImages:[],fuWideImages:[]};
+    const t = document.getElementById('new-text'), a = document.getElementById('new-answer');
+    if(t) teacherDrafts['new'].text = t.value;
+    if(a) teacherDrafts['new'].answer = a.value;
+    syncFollowUpInputs('new');
+    drawProblemsTab();
+    refocusImgField(document.getElementById('add-form'), field);
+    return;
+  }
+  const [par, num] = key.split('-').map(Number);
+  const row = document.getElementById('row-'+key);
+  if(row){
+    const t = document.getElementById('text-'+key), a = document.getElementById('answer-'+key);
+    if(t) teacherDrafts[key].text = t.value;
+    if(a) teacherDrafts[key].answer = a.value;
+    syncFollowUpInputs(key);
+    row.outerHTML = problemEditRow(par, num);
+    refocusImgField(document.getElementById('row-'+key), field);
+  }
+}
+
+/* После перерисовки строки браузер сбрасывает фокус на <body>. Возвращаем фокус
+   на файловый input внутри того же блока картинок, чтобы следующая вставка
+   Ctrl+V без лишнего клика попала туда же (а не потерялась/промахнулась). */
+function refocusImgField(scopeEl, field){
+  if(!scopeEl || !field) return;
+  const target = scopeEl.querySelector(`[data-imgfield="${field}"] input[type="file"]`);
+  if(target) target.focus({preventScroll:true});
+}
+
+/* ---------- Панель формул: степени, индексы, корень и другие символы ---------- */
+function insertAtCursor(id, str){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+  const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+  el.value = el.value.slice(0, start) + str + el.value.slice(end);
+  const pos = start + str.length;
+  el.focus();
+  el.setSelectionRange(pos, pos);
+}
+
+const FORMULA_BUTTONS = [
+  ['x²','²'],
+  ['x₀','₀'],['xₓ','ₓ'],
+  ['a\u20D7','\u20D7'],
+  ['α','α'],['β','β'],['γ','γ'],['φ','φ'],['ω','ω'],['η','η'],['ν','ν'],['τ','τ'],['μ','μ'],
+  ['√','√'],['π','π'],['Δ','Δ'],['×','×'],['÷','÷'],['±','±'],['°','°'],['≈','≈'],['≤','≤'],['≥','≥'],['→','→']
+];
+
+/* Оборачивает выделенный текст в prefix{...}, либо, если ничего не выделено,
+   вставляет шаблон с курсором внутри скобок. Общая логика для √{}, ^{} и _{}. */
+function insertWrapTemplate(id, prefix){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+  const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+  const selected = el.value.slice(start, end);
+  const str = prefix + '{' + selected + '}';
+  el.value = el.value.slice(0, start) + str + el.value.slice(end);
+  const pos = selected ? (start + str.length) : (start + prefix.length + 1);
+  el.focus();
+  el.setSelectionRange(pos, pos);
+}
+function insertSqrtTemplate(id){ insertWrapTemplate(id, '√'); }
+function insertOverlineTemplate(id){ insertWrapTemplate(id, '#'); }
+function insertSupTemplate(id){ insertWrapTemplate(id, '^'); }
+function insertSubTemplate(id){ insertWrapTemplate(id, '_'); }
+
+/* Дробь с горизонтальной чертой: /{числитель}{знаменатель}.
+   Если выделен текст — он становится числителем, курсор переходит в пустой знаменатель. */
+function insertFracTemplate(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+  const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+  const selected = el.value.slice(start, end);
+  const str = '/{' + selected + '}{}';
+  el.value = el.value.slice(0, start) + str + el.value.slice(end);
+  const pos = start + 2 + selected.length + 2; // курсор внутри знаменателя
+  el.focus();
+  el.setSelectionRange(pos, pos);
+}
+
+/* Запись вида «ядерная физика»: массовое и зарядовое число друг над другом слева от символа: ~{A}{Z}. */
+function insertNuclideTemplate(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+  const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+  el.value = el.value.slice(0, start) + '~{}{}' + el.value.slice(end);
+  const pos = start + 2; // курсор внутри первых скобок (массовое число)
+  el.focus();
+  el.setSelectionRange(pos, pos);
+}
+
+/* Вставляет шаблон небольшой таблицы 2×2 — строки данных, столбцы через | ; учитель дописывает по образцу. */
+function insertTableTemplate(id){
+  insertAtCursor(id, '\n[table]\n |  | \n |  | \n[/table]\n');
+}
+
+/* Принудительный перенос на новую строку — БЕЗ пустой строки-отступа перед ним.
+   smartWrap() автоматически сворачивает обычные одиночные переносы строк (Enter)
+   в пробел (это нужно, чтобы убирать вынужденные переносы вёрстки исходного PDF),
+   и сохраняет разрыв только если строка целиком пустая (настоящий абзац) или
+   совпадает с одним из известных паттернов (варианты ответа, "Ответ:" и т.п.).
+   Обычный одиночный \n тут не подходит — он был бы молча склеен обратно. Поэтому
+   после \n вставляется невидимый маркер PARAGRAPH_BREAK_MARKER (см. выше, у
+   formatMath) — smartWrap() распознаёт его как "здесь точно нужен перенос" и
+   вырезает перед выводом, так что в итоге получается просто перенос строки
+   без визуального пустого промежутка. */
+function insertParagraphBreak(id){
+  insertAtCursor(id, '\n' + PARAGRAPH_BREAK_MARKER);
+}
+
+function formulaToolbarHtml(textareaId){
+  const plain = FORMULA_BUTTONS.map(([label,val])=>
+    `<button type="button" class="formula-btn" onmousedown="event.preventDefault()" onclick="insertAtCursor('${textareaId}','${val}')" title="Вставить ${label}">${label}</button>`
+  ).join('');
+  const sqrtBtn = `<button type="button" class="formula-btn" onmousedown="event.preventDefault()" onclick="insertSqrtTemplate('${textareaId}')" title="Корень с чертой над выражением (выделите текст перед нажатием, чтобы обернуть его)">√̅</button>`;
+  const supBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 6px;" onmousedown="event.preventDefault()" onclick="insertSupTemplate('${textareaId}')" title="Произвольная степень (не только готовые ² и т.п.) — выделите текст, чтобы обернуть, или вставится ^{} с курсором внутри">x^{ }</button>`;
+  const subBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 6px;" onmousedown="event.preventDefault()" onclick="insertSubTemplate('${textareaId}')" title="Произвольный нижний индекс (любой текст) — выделите текст, чтобы обернуть, или вставится _{} с курсором внутри">x_{ }</button>`;
+  const fracBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 6px;" onmousedown="event.preventDefault()" onclick="insertFracTemplate('${textareaId}')" title="Дробь с горизонтальной чертой — выделите числитель перед нажатием, курсор перейдёт в знаменатель">a/b</button>`;
+  const nuclideBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 6px;" onmousedown="event.preventDefault()" onclick="insertNuclideTemplate('${textareaId}')" title="Запись изотопа: массовое и зарядовое число друг над другом слева от символа (как в ядерной физике), например 235 над 92 перед U">☢ AZX</button>`;
+  const overlineBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 6px;" onmousedown="event.preventDefault()" onclick="insertOverlineTemplate('${textareaId}')" title="Черта над выражением (среднее значение) — выделите текст, чтобы обернуть, или вставится #{} с курсором внутри">v̄</button>`;
+  const tableBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 8px;" onmousedown="event.preventDefault()" onclick="insertTableTemplate('${textareaId}')" title="Вставить таблицу 2×2 (строки — с новой строки, столбцы через |, можно дописать ещё строк/столбцов)">⊞ Таблица</button>`;
+  const paraBtn = `<button type="button" class="formula-btn" style="width:auto; padding:0 8px;" onmousedown="event.preventDefault()" onclick="insertParagraphBreak('${textareaId}')" title="Принудительный перенос на новый абзац. Обычные Enter внутри текста склеиваются автоматически (это убирает переносы вёрстки PDF) — эта кнопка вставляет настоящий разрыв абзаца">¶ Новый абзац</button>`;
+  return `<div class="formula-toolbar">${plain}${sqrtBtn}${supBtn}${subBtn}${fracBtn}${nuclideBtn}${overlineBtn}${tableBtn}${paraBtn}</div>`;
+}
+
+function loadTextFileInto(inputId, evt){
+  const file = evt.target.files[0];
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = ()=>{ document.getElementById(inputId).value = r.result; };
+  r.readAsText(file, 'UTF-8');
+  evt.target.value = '';
+}
+
+function moveTargetOptions(par, num){
+  const nums = problemsForPar(par).filter(n=>n!==num);
+  return nums.map(n=>`<option value="${n}" ${n===num-1?'selected':''}>После задачи ${taskLabel(par,n)}</option>`).join('');
+}
+
+function problemEditRow(par, num){
+  const key = pKey(par,num);
+  if(!teacherDrafts[key]) teacherDrafts[key] = {text:'',answer:'',images:[],wideImages:[]};
+  const d = teacherDrafts[key];
+  const moving = moveModeKey === key;
+  return `
+  <div class="plist-item" id="row-${key}" data-imgkey="${key}">
+    <div class="plist-head">
+      <span class="plist-key">Задача ${taskLabel(par,num)}</span>
+      <div style="display:flex; gap:6px;">
+        <button type="button" class="btn btn-sm" onclick="startInsertAfter(${num})">Вставить после ↴</button>
+        <button type="button" class="btn btn-sm" onclick="startMove('${key}')">Переместить ↕</button>
+        <button type="button" class="btn btn-sm" onclick="saveProblemEdit('${key}', this)">Сохранить</button>
+        <button type="button" class="btn btn-sm btn-ghost" onclick="deleteProblem('${key}', this)" style="color:var(--red);">Удалить</button>
+      </div>
+    </div>
+    ${moving ? `
+      <div class="insert-badge" style="margin-bottom:8px;">
+        <span>Переместить задачу ${taskLabel(par,num)}:</span>
+        <select id="move-target-${key}">${moveTargetOptions(par,num)}</select>
+        <button type="button" class="btn btn-sm btn-dark" onclick="confirmMove('${key}')">Переместить</button>
+        <button type="button" class="btn btn-sm" onclick="moveModeKey=null; drawProblemsTab();">Отмена</button>
+      </div>
+    ` : ''}
+    <div style="margin-bottom:8px;">
+      <div class="field-label">Условие (текст)</div>
+      ${formulaToolbarHtml('text-'+key)}
+      <textarea id="text-${key}">${escapeHtml(d.text)}</textarea>
+      <div style="margin-top:6px;">
+        <span class="field-label" style="display:inline;">или загрузить .txt файл:</span>
+        <input type="file" accept=".txt" onchange="loadTextFileInto('text-${key}', event)">
+      </div>
+    </div>
+    <div style="margin-bottom:8px;" data-imgfield="images">
+      <div class="field-label">Изображения условия (слева от текста) <span style="text-transform:none; font-weight:400; color:var(--muted);">(можно вставить из буфера — Ctrl+V)</span></div>
+      ${imgGalleryHtml(key,'images')}
+      <input type="file" accept="image/*" multiple onchange="addImagesToDraft('${key}', event, 'images')">
+      ${urlAddRowHtml(key,'images')}
+    </div>
+    <div style="margin-bottom:8px;" data-imgfield="wideImages">
+      <div class="field-label">Картинка на всю ширину (под текстом) <span style="text-transform:none; font-weight:400; color:var(--muted);">(можно вставить из буфера — Ctrl+V; если текста нет, это и будет условием целиком)</span></div>
+      ${imgGalleryHtml(key,'wideImages')}
+      <input type="file" accept="image/*" multiple onchange="addImagesToDraft('${key}', event, 'wideImages')">
+      ${urlAddRowHtml(key,'wideImages')}
+    </div>
+    <div>
+      <div class="field-label">Правильный ответ</div>
+      <input type="text" id="answer-${key}" value="${escapeAttr(d.answer)}">
+    </div>
+    ${followUpSectionHtml(key, d)}
+  </div>`;
+}
+
+/* Секция «дополнительная задача» — вложенная в основную задачу (та же форма
+   данных: текст/картинки слева/картинка на всю ширину/ответ), показывается
+   ученику по кнопке при неверном основном ответе. Поля дополнительной задачи
+   в teacherDrafts плоские (fuText/fuAnswer/fuImages/fuWideImages), поэтому
+   imgGalleryHtml/addImagesToDraft/removeImageFromDraft переиспользуются без
+   изменений — они и так принимают произвольное имя поля. */
+function followUpSectionHtml(key, d){
+  return `
+    <div class="followup-editor">
+      <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <input type="checkbox" id="fu-check-${key}" ${d.hasFollowUp?'checked':''} onchange="toggleFollowUp('${key}')">
+        <span class="field-label" style="margin:0;">Есть дополнительная задача (появится у ученика при неверном ответе)</span>
+      </label>
+      ${d.hasFollowUp ? `
+        <div style="margin-top:10px;">
+          <div class="field-label">Условие доп. задачи (текст)</div>
+          ${formulaToolbarHtml('fu-text-'+key)}
+          <textarea id="fu-text-${key}">${escapeHtml(d.fuText||'')}</textarea>
+        </div>
+        <div style="margin-bottom:8px;" data-imgfield="fuImages">
+          <div class="field-label">Изображения доп. задачи <span style="text-transform:none; font-weight:400; color:var(--muted);">(можно вставить из буфера — Ctrl+V)</span></div>
+          ${imgGalleryHtml(key,'fuImages')}
+          <input type="file" accept="image/*" multiple onchange="addImagesToDraft('${key}', event, 'fuImages')">
+          ${urlAddRowHtml(key,'fuImages')}
+        </div>
+        <div style="margin-bottom:8px;" data-imgfield="fuWideImages">
+          <div class="field-label">Картинка доп. задачи на всю ширину <span style="text-transform:none; font-weight:400; color:var(--muted);">(можно вставить из буфера — Ctrl+V)</span></div>
+          ${imgGalleryHtml(key,'fuWideImages')}
+          <input type="file" accept="image/*" multiple onchange="addImagesToDraft('${key}', event, 'fuWideImages')">
+          ${urlAddRowHtml(key,'fuWideImages')}
+        </div>
+        <div>
+          <div class="field-label">Правильный ответ доп. задачи</div>
+          <input type="text" id="fu-answer-${key}" value="${escapeAttr(d.fuAnswer||'')}">
+        </div>
+      ` : ''}
+    </div>`;
+}
+
+function startInsertAfter(num){
+  insertAfterNum = num;
+  drawProblemsTab();
+  const form = document.getElementById('add-form');
+  if(form) form.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function startMove(key){
+  moveModeKey = key;
+  drawProblemsTab();
+  const row = document.getElementById('row-'+key);
+  if(row) row.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+async function confirmMove(key){
+  const [par, num] = key.split('-').map(Number);
+  const sel = document.getElementById('move-target-'+key);
+  const afterNum = parseInt(sel.value, 10);
+  const btn = sel.nextElementSibling;
+  if(btn){ btn.disabled = true; btn.textContent = 'Переносим...'; }
+  let ok = await moveProblemAfter(par, num, afterNum);
+  if(!ok) ok = await handleSaveFailure(()=>moveProblemAfter(par, num, afterNum));
+  moveModeKey = null;
+  await renderProblemsTab();
+  renderSidebar();
+}
+
+/* Читает из DOM все текстовые поля/ответы уже существующих задач параграфа
+   (картинки не трогает — они и так живут в teacherDrafts актуально, без
+   привязки к кнопке "Сохранить") и переносит их в переданный blob-объект.
+   Используется и кнопкой "Сохранить все", и добавлением/вставкой новой
+   задачи — чтобы несохранённые правки в старых задачах не терялись. */
+function syncParBlobFromDOM(par, blob){
+  problemsForPar(par).forEach(n=>{
+    const key = pKey(par, n);
+    const textEl = document.getElementById('text-'+key);
+    const answerEl = document.getElementById('answer-'+key);
+    const draft = teacherDrafts[key];
+    const text = textEl ? textEl.value.trim() : (draft ? draft.text : (blob[n]&&blob[n].text)||'');
+    const answer = answerEl ? answerEl.value.trim() : (draft ? draft.answer : (blob[n]&&blob[n].answer)||'');
+    const images = draft ? (draft.images||[]) : ((blob[n]&&blob[n].images)||[]);
+    const wideImages = draft ? (draft.wideImages||[]) : ((blob[n]&&blob[n].wideImages)||[]);
+
+    const fuCheckEl = document.getElementById('fu-check-'+key);
+    const fuTextEl = document.getElementById('fu-text-'+key);
+    const fuAnswerEl = document.getElementById('fu-answer-'+key);
+    const prevFollowUp = blob[n] && blob[n].followUp;
+    const hasFollowUp = fuCheckEl ? fuCheckEl.checked : (draft ? !!draft.hasFollowUp : !!prevFollowUp);
+    const fuText = fuTextEl ? fuTextEl.value.trim() : (draft ? draft.fuText : (prevFollowUp && prevFollowUp.text) || '');
+    const fuAnswer = fuAnswerEl ? fuAnswerEl.value.trim() : (draft ? draft.fuAnswer : (prevFollowUp && prevFollowUp.answer) || '');
+    const fuImages = draft ? (draft.fuImages||[]) : ((prevFollowUp && prevFollowUp.images) || []);
+    const fuWideImages = draft ? (draft.fuWideImages||[]) : ((prevFollowUp && prevFollowUp.wideImages) || []);
+    const followUp = hasFollowUp ? { text: fuText, answer: fuAnswer, images: fuImages, wideImages: fuWideImages } : undefined;
+
+    blob[n] = { text, answer, images, wideImages, followUp };
+    if(draft){ draft.text = text; draft.answer = answer; draft.hasFollowUp = hasFollowUp; draft.fuText = fuText; draft.fuAnswer = fuAnswer; }
+  });
+}
+
+/* Кнопка "Сохранить все изменения в параграфе" — по одному запросу на
+   задачу (раньше был один общий блок, но в Supabase каждая задача — это
+   отдельная строка). Считаем, что в этот момент ученики ответы не вводят
+   (правки результатов не затрагиваются). */
+async function saveAllProblems(){
+  const par = teacherSelectedPar;
+  const btn = document.getElementById('save-all-btn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Сохраняем...'; }
+
+  const blob = getParBlob(par);
+  syncParBlobFromDOM(par, blob);
+
+  let allOk = true;
+  for(const n of problemsForPar(par)){
+    const ok = await saveProblem(pKey(par, n), blob[n]);
+    if(!ok) allOk = false;
+  }
+
+  if(allOk) await customAlert('Все задачи параграфа сохранены');
+  else await customAlert('Не всё удалось сохранить — попробуйте ещё раз.');
+  await renderProblemsTab();
+  renderSidebar();
+}
+
+function followUpFromForm(key){
+  const cb = document.getElementById('fu-check-'+key);
+  if(!cb || !cb.checked) return undefined;
+  const textEl = document.getElementById('fu-text-'+key);
+  const answerEl = document.getElementById('fu-answer-'+key);
+  const d = teacherDrafts[key] || {};
+  return {
+    text: textEl ? textEl.value.trim() : (d.fuText||''),
+    answer: answerEl ? answerEl.value.trim() : (d.fuAnswer||''),
+    images: d.fuImages || [],
+    wideImages: d.fuWideImages || []
+  };
+}
+
+let addProblemBusy = false;
+
+async function addProblem(btn){
+  if(addProblemBusy) return; // защита от двойного клика — не шлём два запроса к хранилищу подряд
+  addProblemBusy = true;
+  const originalLabel = btn ? btn.textContent : null;
+  if(btn){ btn.disabled = true; btn.textContent = 'Сохраняем...'; }
+  try{
+    const text = document.getElementById('new-text').value.trim();
+    const answer = document.getElementById('new-answer').value.trim();
+    const images = teacherDrafts['new'].images;
+    const wideImages = teacherDrafts['new'].wideImages;
+    const followUp = followUpFromForm('new');
+    const par = teacherSelectedPar;
+
+    // сохраняем несохранённые правки в уже существующих задачах параграфа
+    // (если они были) — иначе они потеряются при перезаписи блоба
+    syncParBlobFromDOM(par, getParBlob(par));
+
+    if(insertAfterNum !== null){
+      const afterNumSnapshot = insertAfterNum;
+      let ok = await insertProblemAfter(par, afterNumSnapshot, {text, answer, images, wideImages, followUp});
+      insertAfterNum = null;
+      if(!ok) await handleSaveFailure(()=>insertProblemAfter(par, afterNumSnapshot, {text, answer, images, wideImages, followUp}));
+    } else {
+      const nums = problemsForPar(par);
+      const num = nums.length ? Math.max(...nums)+1 : 1;
+      const key = pKey(par,num);
+      let ok = await saveProblem(key, {text, answer, images, wideImages, followUp});
+      if(!ok) await handleSaveFailure(()=>saveProblem(key, {text, answer, images, wideImages, followUp}));
+    }
+    await renderProblemsTab();
+    renderSidebar();
+  } finally {
+    addProblemBusy = false;
+    // btn может уже не существовать в DOM после renderProblemsTab() — это ок, просто пропускаем
+    if(btn && document.body.contains(btn)){ btn.disabled = false; btn.textContent = originalLabel; }
+  }
+}
+
+const saveProblemBusy = {}; // key -> true, пока запрос в процессе
+
+async function saveProblemEdit(key, btn){
+  if(saveProblemBusy[key]) return; // защита от двойного клика
+  saveProblemBusy[key] = true;
+  const originalLabel = btn ? btn.textContent : null;
+  if(btn){ btn.disabled = true; btn.textContent = 'Сохраняем...'; }
+  try{
+    const text = document.getElementById('text-'+key).value.trim();
+    const answer = document.getElementById('answer-'+key).value.trim();
+    const images = teacherDrafts[key] ? teacherDrafts[key].images : [];
+    const wideImages = teacherDrafts[key] ? teacherDrafts[key].wideImages : [];
+    const followUp = followUpFromForm(key);
+    let ok = await saveProblem(key, {text, answer, images, wideImages, followUp});
+    if(!ok){ ok = await handleSaveFailure(()=>saveProblem(key, {text, answer, images, wideImages, followUp})); }
+    if(ok) await customAlert('Сохранено');
+  } finally {
+    saveProblemBusy[key] = false;
+    if(btn && document.body.contains(btn)){ btn.disabled = false; btn.textContent = originalLabel; }
+  }
+}
+
+async function deleteProblem(key, btn){
+  if(!await customConfirm('Удалить задачу '+taskLabel(...key.split('-').map(Number))+'? Результат по ней будет удалён у всех учеников, а номера последующих задач параграфа сдвинутся на 1.')) return;
+  if(btn){ btn.disabled = true; btn.textContent = 'Удаляем...'; }
+  let ok = await deleteProblemStorage(key);
+  if(!ok) ok = await handleSaveFailure(()=>deleteProblemStorage(key));
+  await renderProblemsTab();
+  renderSidebar();
+}
+
+/* ---------- INSERT AFTER (renумерация — теперь один запрос на параграф) ---------- */
+async function insertProblemAfter(par, afterNum, newContent){
+  const btn = document.querySelector('#add-form .btn-dark');
+  if(btn){ btn.disabled = true; btn.textContent = 'Сохраняем...'; }
+
+  const hasFollowUp = !!newContent.followUp;
+  const { error } = await sbRpc('add_question', {
+    p_password_hash: state.teacherPasswordHash,
+    p_par: par,
+    p_num: afterNum + 1,
+    p_text: newContent.text || '',
+    p_images: newContent.images || [],
+    p_wide_images: newContent.wideImages || [],
+    p_has_follow_up: hasFollowUp,
+    p_follow_up_text: hasFollowUp ? (newContent.followUp.text||'') : null,
+    p_follow_up_images: hasFollowUp ? (newContent.followUp.images||[]) : [],
+    p_follow_up_wide_images: hasFollowUp ? (newContent.followUp.wideImages||[]) : [],
+    p_answer: newContent.answer || '',
+    p_follow_up_answer: hasFollowUp ? (newContent.followUp.answer||'') : null
+  });
+  if(error){ lastStorageError = error; return false; }
+  await ensureParLoaded(par, true);
+  await loadTeacherAnswerKey();
+  return true;
+}
+
+let resultsCache = null;
+let answerKeyCache = {}; // "par.num" -> {answer, followUpAnswer}
+
+/* Выгружает результаты ВСЕХ учеников по ВСЕМ задачам одним JSON-файлом —
+   свежим запросом к серверу (не завязано на текущий фильтр/сортировку
+   таблицы на экране), с правильным ответом рядом с ответом ученика для
+   удобства проверки. */
+async function exportResults(){
+  const btn = document.getElementById('export-results-btn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Готовим файл...'; }
+  try{
+    const [{ data: summary, error: sErr }, { data: keyRows, error: kErr }] = await Promise.all([
+      sbRpc('get_teacher_summary', { p_password_hash: state.teacherPasswordHash }),
+      sbRpc('get_teacher_answer_key', { p_password_hash: state.teacherPasswordHash })
+    ]);
+    if(sErr || kErr){ await customAlert('Не удалось загрузить результаты для экспорта.'); return; }
+
+    const keyMap = {};
+    (keyRows||[]).forEach(r=>{ keyMap[r.question_id] = { answer: r.answer, followUpAnswer: r.follow_up_answer }; });
+
+    const out = (summary||[]).map(row=>{
+      const ak = keyMap[row.question_id] || {};
+      return {
+        student: row.student_name,
+        questionId: row.question_id,
+        isFollowUp: !!row.is_follow_up,
+        attempts: row.attempts,
+        solved: row.solved,
+        solvedOnAttempt: row.solved_on_attempt,
+        lastAnswer: row.last_answer,
+        correctAnswer: row.is_follow_up ? (ak.followUpAnswer ?? null) : (ak.answer ?? null),
+        lastCorrect: row.last_correct,
+        lastTimestamp: row.last_timestamp
+      };
+    });
+    downloadJson(`rezultaty_phys_oge_${new Date().toISOString().slice(0,10)}.json`, out);
+  } finally {
+    if(btn){ btn.disabled = false; btn.textContent = 'Скачать результаты учеников (JSON)'; }
+  }
+}
+
+async function renderResultsTab(){
+  const body = document.getElementById('tm-body');
+  body.innerHTML = `<p>Загрузка результатов...</p>`;
+
+  const [{ data: summary, error: sErr }, { data: keyRows, error: kErr }] = await Promise.all([
+    sbRpc('get_teacher_summary', { p_password_hash: state.teacherPasswordHash }),
+    sbRpc('get_teacher_answer_key', { p_password_hash: state.teacherPasswordHash })
+  ]);
+
+  if(sErr || kErr){
+    body.innerHTML = `<p>Не удалось загрузить результаты. Попробуйте «Обновить данные».</p>`;
+    return;
+  }
+
+  answerKeyCache = {};
+  (keyRows||[]).forEach(r=>{ answerKeyCache[r.question_id] = { answer: r.answer, followUpAnswer: r.follow_up_answer }; });
+
+  const list = [];
+  const allData = {};
+  const parsNeeded = new Set();
+  (summary||[]).forEach(row=>{
+    if(!allData[row.student_name]){ allData[row.student_name] = {}; list.push(row.student_name); }
+    const baseKey = dbIdToKey(row.question_id);
+    const key = row.is_follow_up ? followUpDataKey(baseKey) : baseKey;
+    allData[row.student_name][key] = {
+      given: row.last_answer || '',
+      correct: !!row.last_correct,
+      ts: row.last_timestamp ? new Date(row.last_timestamp).getTime() : Date.now(),
+      attempts: row.attempts || 0
+    };
+    parsNeeded.add(Number(String(row.question_id).split('.')[0]));
+  });
+  list.sort((a,b)=>a.localeCompare(b));
+
+  if(resultsViewMode === 'map'){
+    await loadAllParBlobs(false, (done,total)=>{ body.innerHTML = `<p>Загрузка карты задач... ${done} из ${total}</p>`; });
+  } else {
+    await loadParsSequentially(Array.from(parsNeeded), false, (done,total)=>{ body.innerHTML = `<p>Загрузка результатов... ${done} из ${total}</p>`; });
+  }
+  resultsCache = { list, allData };
+  drawResults('__all__');
+}
+
+let resultsViewMode = 'table'; // 'table' | 'map' — карта по параграфам доступна только для конкретного ученика
+
+async function onStudentFilterChange(name){
+  if(resultsViewMode === 'map'){
+    const body = document.getElementById('tm-body');
+    if(!state.parBlobsLoaded){ await loadAllParBlobs(false, (done,total)=>{ body.innerHTML = `<p>Загрузка карты задач... ${done} из ${total}</p>`; }); }
+  }
+  drawResults(name);
+}
+
+async function toggleResultsView(){
+  const selectedStudent = document.getElementById('student-filter') ? document.getElementById('student-filter').value : '__all__';
+  if(resultsViewMode === 'table'){
+    const body = document.getElementById('tm-body');
+    body.innerHTML = `<p>Загрузка карты задач...</p>`;
+    await loadAllParBlobs(false, (done,total)=>{ body.innerHTML = `<p>Загрузка карты задач... ${done} из ${total}</p>`; }); // нужно знать полный список задач каждого параграфа, не только отвеченные
+    resultsViewMode = 'map';
+  } else {
+    resultsViewMode = 'table';
+  }
+  drawResults(selectedStudent);
+}
+
+/* Статус конкретной задачи для карты ученика: та же логика цвета, что в
+   кружках сайдбара (chipHtml), но по переданным данным конкретного ученика,
+   а не по state.studentData текущего вошедшего профиля. */
+function studentChipStatus(data, par, num){
+  const rec = data[pKey(par, num)];
+  if(!rec) return 'unsolved';
+  return rec.correct ? ((rec.attempts>1) ? 'retry' : 'correct') : 'wrong';
+}
+
+function renderStudentMapHtml(name){
+  const data = (resultsCache && resultsCache.allData[name]) || {};
+  return `
+    <div class="stu-map-legend">
+      <span><i style="background:var(--green); border-color:var(--green);"></i>Верно с 1-й попытки</span>
+      <span><i style="background:var(--amber); border-color:var(--amber);"></i>Верно не с 1-й попытки</span>
+      <span><i style="background:var(--red); border-color:var(--red);"></i>Сейчас неверно</span>
+      <span><i style="background:var(--surface);"></i>Не решено</span>
+    </div>
+    ${CURRICULUM.map(sec=>`
+      <div class="stu-map-sec">
+        <div class="stu-map-sec-title">${escapeHtml(sec.section)}</div>
+        ${sec.subs.map(sub=>`
+          <div class="stu-map-sub">
+            <div class="stu-map-sub-title">${escapeHtml(sub.name)}</div>
+            ${sub.pars.map(p=>{
+              const nums = problemsForPar(p.num);
+              if(!nums.length) return '';
+              return `
+              <div class="stu-map-par">
+                <span class="stu-map-par-label">§${p.num}</span>
+                <div class="stu-map-chips">
+                  ${nums.map(n=>{
+                    const st = studentChipStatus(data, p.num, n);
+                    const key = pKey(p.num, n);
+                    const rec = data[key];
+                    const fuRec = data[followUpDataKey(key)];
+                    const prob = (getParBlob(p.num) || {})[n];
+                    const hasFollowUp = !!(prob && prob.followUp && ((prob.followUp.text && prob.followUp.text.trim()) || (prob.followUp.images && prob.followUp.images.length) || (prob.followUp.wideImages && prob.followUp.wideImages.length)));
+                    const everWrongOnMain = !!(rec && (!rec.correct || rec.attempts > 1));
+                    const followUpPending = hasFollowUp && everWrongOnMain && !(fuRec && fuRec.correct);
+                    return `<span class="chip ${st==='unsolved'?'unsolved':st} ${followUpPending?'followup-pending':''}" style="cursor:default;" title="Задача ${taskLabel(p.num,n)}${followUpPending?' — есть нерешённая доп. задача':''}">${taskLabel(p.num,n)}</span>`;
+                  }).join('')}
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+  `;
+}
+
+let resultsSort = { field: 'ts', dir: 'desc' };
+
+function setResultsSort(field){
+  if(resultsSort.field === field){
+    resultsSort.dir = resultsSort.dir === 'asc' ? 'desc' : 'asc';
+  } else {
+    resultsSort.field = field;
+    resultsSort.dir = 'asc';
+  }
+  drawResults(document.getElementById('student-filter') ? document.getElementById('student-filter').value : '__all__');
+}
+
+function sortArrow(field){
+  if(resultsSort.field !== field) return '<span style="opacity:.3;">↕</span>';
+  return resultsSort.dir === 'asc' ? '↑' : '↓';
+}
+
+function drawResults(selectedStudent){
+  const body = document.getElementById('tm-body');
+  const { list, allData } = resultsCache;
+  if(selectedStudent === '__all__') resultsViewMode = 'table'; // карта имеет смысл только для одного ученика
+
+  let rows = [];
+  const studentsToShow = selectedStudent === '__all__' ? list : [selectedStudent];
+  studentsToShow.forEach(name=>{
+    const data = allData[name] || {};
+    Object.keys(data).forEach(key=>{
+      const isFollowUp = key.endsWith('-followup');
+      const baseKey = isFollowUp ? key.slice(0, -('-followup'.length)) : key;
+      const [par, num] = baseKey.split('-').map(Number);
+      const meta = PAR_INDEX[par];
+      const ak = answerKeyCache[dbId(par, num)];
+      const correctAnswer = isFollowUp ? (ak ? ak.followUpAnswer : '') : (ak ? ak.answer : '');
+      rows.push({ name, key: baseKey, par, num, isFollowUp, title: meta ? meta.title : '', correctAnswer, ...data[key] });
+    });
+  });
+
+  const dirMul = resultsSort.dir === 'asc' ? 1 : -1;
+  if(resultsSort.field === 'task'){
+    rows.sort((a,b)=> dirMul * ((a.par - b.par) || (a.num - b.num)));
+  } else {
+    rows.sort((a,b)=> dirMul * (a.ts - b.ts));
+  }
+
+  body.innerHTML = `
+    <div class="row-2" style="margin-bottom:16px; align-items:end;">
+      <div>
+        <div class="field-label">Ученик</div>
+        <select id="student-filter" onchange="onStudentFilterChange(this.value)">
+          <option value="__all__" ${selectedStudent==='__all__'?'selected':''}>Все ученики (${list.length})</option>
+          ${list.map(n=>`<option value="${escapeAttr(n)}" ${selectedStudent===n?'selected':''}>${escapeHtml(n)}</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn" onclick="renderResultsTab()">Обновить данные</button>
+        <button type="button" id="export-results-btn" class="btn btn-sm" onclick="exportResults()">Скачать результаты учеников (JSON)</button>
+        ${selectedStudent!=='__all__' ? `<button type="button" class="btn btn-sm" onclick="toggleResultsView()">${resultsViewMode==='map'?'Показать таблицей':'Показать по параграфам'}</button>` : ''}
+        ${selectedStudent!=='__all__' ? `<button type="button" class="btn btn-sm" style="color:var(--red);" onclick="resetStudent('${escapeAttr(selectedStudent)}')">Сбросить результаты</button>` : ''}
+      </div>
+    </div>
+    ${selectedStudent!=='__all__' && resultsViewMode==='map' ? renderStudentMapHtml(selectedStudent) : `
+    <table>
+      <thead><tr>
+        ${selectedStudent==='__all__' ? '<th>Ученик</th>' : ''}
+        <th style="cursor:pointer; user-select:none;" onclick="setResultsSort('task')">№ задачи ${sortArrow('task')}</th><th>Правильный ответ</th><th>Ответ ученика</th><th>Результат</th><th>Попыток</th><th style="cursor:pointer; user-select:none;" onclick="setResultsSort('ts')">Когда ${sortArrow('ts')}</th>
+      </tr></thead>
+      <tbody>
+        ${rows.length ? rows.map(r=>`
+          <tr>
+            ${selectedStudent==='__all__' ? `<td>${escapeHtml(r.name)}</td>` : ''}
+            <td class="mono">№${taskLabel(r.par,r.num)}${r.isFollowUp ? ` <span style="color:var(--blue); font-weight:600;">(доп.)</span>` : ''}</td>
+            <td class="mono">${escapeHtml(r.correctAnswer)}</td>
+            <td class="mono">${escapeHtml(r.given)}</td>
+            <td><span class="tag ${r.correct?((r.attempts>1)?'retry':'ok'):'bad'}">${r.correct?'Верно':'Неверно'}</span></td>
+            <td class="mono">${r.attempts}</td>
+            <td>${new Date(r.ts).toLocaleString('ru-RU')}</td>
+          </tr>`).join('') : `<tr><td colspan="7" style="text-align:center; color:var(--muted); padding:24px;">Пока нет ответов</td></tr>`}
+      </tbody>
+    </table>
+    `}
+  `;
+}
+
+async function resetStudent(name){
+  if(!await customConfirm('Сбросить все результаты ученика "'+name+'"? Это действие необратимо.')) return;
+  const { error } = await sbRpc('reset_student_progress', { p_password_hash: state.teacherPasswordHash, p_student_name: name });
+  if(error){ await customAlert('Не удалось сбросить результаты.'); return; }
+  resultsCache.allData[name] = {};
+  drawResults(name);
+}
+</script>
+</body>
+</html>
